@@ -1,19 +1,103 @@
-﻿#root {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 2rem;
-    text-align: center;
+﻿@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+:root {
+  /* Main Colors */
+  --mc-p: #5b33a5;
+  --mc-s: #47225f;
+  --mc-t: #c74938;
+  
+  /* Background Colors */
+  --bg-p: #272727;
+  --bg-s: #474747;
+
+  /* Text Colors */
+  --tc-p: #e2e2e2;
+  --tc-s: #a8a8a8;
+
+  /* Special Colors */
+  --sc-danger: #ff6347;
+  --sc-success: #00b300;
+  --sc-link: #1e90ff;
+
+  /* Font Sizes */
+  --fs-xs: 14px;
+  --fs-s: 16px;
+  --fs-m: 20px;
+  --fs-l: 24px;
+  --fs-xl: 32px;
+  --fs-xxl: 48px;
+
+  /* Font Weights */
+  --fw-300: 300;
+  --fw-400: 400;
+  --fw-500: 500;
+  --fw-600: 600;
+  --fw-700: 700;
+  
+  /* Radius */
+  --r-xs: 4px;
+  --r-s: 8px;
+  --r-m: 12px;
+  --r-l: 16px;
+
+  /* Gaps */
+  --g-xs: 5px;
+  --g-s: 10px;
+  --g-m: 15px;
+  --g-l: 20px;
+  --g-xl: 25px;
+  --g-xxl: 30px;
 }
 
-tr:nth-child(even) {
-    background: #F2F2F2;
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-tr:nth-child(odd) {
-    background: #FFF;
+html {
+  font-family: 'Roboto Condensed', sans-serif;
+  color: var(--tc-p);
+  font-weight: var(--fw-400);
+  background-color: var(--bg-p);
 }
 
-th, td {
-    padding-left: 1rem;
-    padding-right: 1rem;
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--fw-600);
+  text-align: center;
+}
+
+h1 {
+  font-size: var(--fs-xxl);
+}
+
+h2 {
+  font-size: var(--fs-xl);
+}
+
+h3 {
+  font-size: var(--fs-l);
+}
+
+h4 {
+  font-size: var(--fs-m);
+}
+
+h5 {
+  font-size: var(--fs-s);
+}
+
+h6 {
+  font-size: var(--fs-xs);
+}
+
+a {
+  text-decoration: none;
+  color: var(--sc-link);
+}
+
+p {
+  color: var(--tc-p);
+  font-size: var(--fs-m);
+  text-align: center;
 }

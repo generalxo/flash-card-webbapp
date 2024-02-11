@@ -1,3 +1,7 @@
+using flash_card_webbapp.Server.Data;
+using flash_card_webbapp.Server.Repositories.Repos;
+using Microsoft.EntityFrameworkCore;
+
 namespace flash_card_webbapp.Server
 {
     public class Program
@@ -7,11 +11,15 @@ namespace flash_card_webbapp.Server
             var builder = WebApplication.CreateBuilder(args);
 
             // Services
-
+            builder.Services.AddScoped<CardRepository>();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            //DbConection
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
 

@@ -6,7 +6,7 @@ namespace flash_card_webbapp.Server.Models.DbModels
     {
         // Primary Key
         [Key]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         // Properties
         [Required]

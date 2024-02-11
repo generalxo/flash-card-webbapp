@@ -9,6 +9,6 @@ namespace flash_card_webbapp.Server.Repositories.Interfaces
         Task CreateAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
-        Task SaveAsync();
+        Task<int> SaveAsync();
     }
 }

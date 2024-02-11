@@ -37,4 +37,9 @@
     </ProjectReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\DTOs\Response\" />
+    <Folder Include="Models\ViewModels\" />
+  </ItemGroup>
+
 </Project>

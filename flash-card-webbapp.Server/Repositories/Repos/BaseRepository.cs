@@ -41,9 +41,11 @@ namespace flash_card_webbapp.Server.Repositories.Repos
             _applicationDbContext.Set<T>().Remove(entity);
         }
 
-        public async Task SaveAsync()
+        public async Task<int> SaveAsync()
         {
-            await _applicationDbContext.SaveChangesAsync();
+            // Returns the number of affected rows. Should always be greater than 0 else something went wrong.
+            int result = await _applicationDbContext.SaveChangesAsync();
+            return result;    
         }
     }
 }

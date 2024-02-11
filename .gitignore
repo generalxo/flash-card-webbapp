@@ -450,3 +450,4 @@ coverage*[.json, .xml, .info]
 
 notes.md
 /flash-card-webbapp.Server/appsettings.json
+/flash-card-webbapp.Server/appsettings.json

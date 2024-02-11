@@ -16,11 +16,23 @@ const HomeHeroContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: var(--g-xxl);
-    padding: var(--g-l);
+    margin-top: 30px;
+    padding: 25px;
     background-color: var(--mc-p);
 
     height: 13rem;
+    border-radius: var(--r-l);
+`;
+
+const MenuContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    padding: 25px;
+    background-color: var(--mc-p);
+
     border-radius: var(--r-l);
 `;
 
@@ -32,6 +44,12 @@ const HomePage = () => {
                 <h1>Welcome to Flash Card!</h1>
                 <HomePageSubtitle>Start learning with flashcards!</HomePageSubtitle>
             </HomeHeroContainer>
+            <MenuContainer>
+                <h2>Menu</h2>
+                <div>
+                    <a href="/Decks">Decks</a>
+                </div>
+            </MenuContainer>
         </>
     );
 };

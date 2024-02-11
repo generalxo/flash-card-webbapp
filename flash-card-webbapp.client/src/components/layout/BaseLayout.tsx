@@ -35,9 +35,9 @@ const BaseLayout = ({ children }: LayoutProps) => {
     return (
         <Container>
             <Navbar />
-            <ChildContainer>
-                {children}
-            </ChildContainer>
+                <ChildContainer>
+                    {children}
+                </ChildContainer>
             <Footer />
         </Container>
     );

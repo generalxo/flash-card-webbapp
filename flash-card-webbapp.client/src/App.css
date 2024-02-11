@@ -39,14 +39,7 @@
   --r-s: 8px;
   --r-m: 12px;
   --r-l: 16px;
-
-  /* Gaps */
-  --g-xs: 5px;
-  --g-s: 10px;
-  --g-m: 15px;
-  --g-l: 20px;
-  --g-xl: 25px;
-  --g-xxl: 30px;
+  --r-xl: 20px;
 }
 
 *, *::before, *::after {

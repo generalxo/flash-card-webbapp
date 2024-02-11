@@ -1,5 +1,5 @@
 //Created Components
-import BaseLayout from './components/layout/components';
+import BaseLayout from './components/layout/BaseLayout';
 import Routing from './components/routing/Routing';
 import './App.css';
 

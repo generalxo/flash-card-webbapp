@@ -6,7 +6,8 @@ namespace flash_card_webbapp.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Services
+
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

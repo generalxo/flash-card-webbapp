@@ -449,3 +449,4 @@ sketch
 coverage*[.json, .xml, .info]
 
 notes.md
+/flash-card-webbapp.Server/appsettings.json

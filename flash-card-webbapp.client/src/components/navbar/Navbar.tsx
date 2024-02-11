@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 // import index from '../index.css';
 import NavbarItem from './NavbarItem';
-
 /* TODO:
     create to do
 */ 
@@ -12,20 +11,20 @@ const NavigationBar = styled.div`
     justify-content: center;
     align-items: center;
     background-color: var(--mc-p);
-    padding-top: .61rem;
-    padding-bottom: .61rem;
-    margin-bottom: var(--g-s);
+    padding: .6rem 0;
+    margin-bottom: 10px;
+    height: 3rem;
 
     ul {
         display: flex;
         list-style: none;
         margin: 0;
         padding: 0;
+        align-items: center;
     }
 
     li {
-        margin-right: .75rem;
-        margin-left: .75rem;
+        margin: 0 .75rem;
     }
 `;
 
@@ -39,7 +38,7 @@ const Navbar = () => {
     // Will later be replaced with more modular code.
     const navbarItems: NavbarItemProps[] = [
         { urlText: 'Home', url: '/' },
-        { urlText: 'About', url: '/about' },
+        { urlText: 'Decks', url: '/decks' },
         { urlText: 'Contact', url: '/contact' },
         { urlText: 'Log In', url: '/login' },
         { urlText: 'Sign Up', url: '/signup' },
@@ -47,13 +46,13 @@ const Navbar = () => {
 
     return (
         <NavigationBar>
-            <ul>
-                <>
-                    {navbarItems.map((item, index) => (
-                        <NavbarItem key={index} urlText={item.urlText} url={item.url} />
-                    ))}
-                </>
-            </ul>
+                <ul>
+                    <>
+                        {navbarItems.map((item, index) => (
+                            <NavbarItem key={index} urlText={item.urlText} url={item.url} />
+                        ))}
+                    </>
+                </ul>
         </NavigationBar>
     );
 };

@@ -2,8 +2,7 @@ import styled from 'styled-components';
 
 const StyledLi = styled.li`
     li {
-        margin-right: .75rem;
-        margin-left: .75rem;
+        margin: 0 .75rem;
     }
     a {
         color: var(--tc-primary);

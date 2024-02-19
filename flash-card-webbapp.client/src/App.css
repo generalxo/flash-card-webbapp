@@ -13,11 +13,12 @@
   /* Text Colors */
   --tc-p: #e2e2e2;
   --tc-s: #a8a8a8;
+  --tc-i: #0f0f0f;
 
   /* Special Colors */
-  --sc-danger: #ff6347;
-  --sc-success: #00b300;
-  --sc-link: #1e90ff;
+  --sc-d: #ff6347;
+  --sc-s: #00b300;
+  --sc-l: #1e90ff;
 
   /* Font Sizes */
   --fs-xs: 14px;

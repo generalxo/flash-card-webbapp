@@ -2,6 +2,7 @@
 // Created Imports
 import HomePage from '../../pages/HomePage';
 import DecksPage from '../../pages/DecksPage';
+import CreateDeckPage from '../../pages/CreateDeckPage';
 
 const AppRoutes = [
     {
@@ -12,6 +13,10 @@ const AppRoutes = [
     {
         path: '/decks',
         Element:  <DecksPage />,
+    },
+    {
+        path: '/createDeck',
+        Element:  <CreateDeckPage />,
     }
 ];
 

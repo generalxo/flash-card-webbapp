@@ -1,5 +1,6 @@
 ﻿using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Models.DTOs.Request;
+using flash_card_webbapp.Server.Models.DTOs.Response;
 using flash_card_webbapp.Server.Repositories.Repos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ using System.Diagnostics;
 
 namespace flash_card_webbapp.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/card")]
     [ApiController]
     public class CardController : ControllerBase
     {
@@ -21,11 +22,23 @@ namespace flash_card_webbapp.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            // Test Endpoint
             try
             {
                 var querry = await _cardRepository.GetAllAsync();
-                return Ok(querry);
+
+                if (querry is null)
+                    return NotFound();
+
+                var response = querry.Select(querry => new GetCardResponseDto
+                {
+                    Title = querry.Title,
+                    Question = querry.Question,
+                    Answer = querry.Answer,
+                    Streak = querry.Streak,
+                    IsReversible = querry.IsReversible
+                });
+
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -34,7 +47,7 @@ namespace flash_card_webbapp.Server.Controllers
             return BadRequest();
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateCard(CreateCardRequestDto requestDto)
         {
             try
@@ -42,13 +55,16 @@ namespace flash_card_webbapp.Server.Controllers
                 if(ModelState.IsValid is false)
                     return BadRequest();
 
-                CardModel newCard = new();
-                newCard.Title = requestDto.Title;
-                newCard.Question = requestDto.Question;
-                newCard.Answer = requestDto.Answer;
-                newCard.IsReversible = requestDto.IsReversible;
+                CardModel card = new()
+                {
+                    Title = requestDto.Title,
+                    Question = requestDto.Question,
+                    Answer = requestDto.Answer,
+                    IsReversible = requestDto.IsReversible,
+                    DeckId = requestDto.DeckId
+                };
 
-                await _cardRepository.CreateAsync(newCard);
+                await _cardRepository.CreateAsync(card);
                 int result = await _cardRepository.SaveAsync();
 
                 if(result is 0)

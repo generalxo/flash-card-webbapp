@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace flash_card_webbapp.Server.Models.DbModels
 {
@@ -20,5 +21,9 @@ namespace flash_card_webbapp.Server.Models.DbModels
         public string? Answer { get; set; }
         public int Streak { get; set; } = 0;
         public bool IsReversible { get; set; } = false;
+        // Foreign Key
+        public Guid DeckId { get; set; }
+        // Navigation Properties
+        public virtual DeckModel Decks { get; set; }
     }
 }

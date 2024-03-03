@@ -4,6 +4,8 @@ namespace flash_card_webbapp.Server.Models.DTOs.Request
 {
     public class CreateCardRequestDto
     {
+        [Required(ErrorMessage = "DeckId is requiered")]
+        public Guid DeckId { get; set; }
         [Required(ErrorMessage = "Title is requiered")]
         public string? Title { get; set; }
         [Required(ErrorMessage = "Question is requiered")]

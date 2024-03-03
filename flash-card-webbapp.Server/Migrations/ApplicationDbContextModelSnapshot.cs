@@ -33,6 +33,9 @@ namespace flash_card_webbapp.Server.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<Guid>("DeckId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsReversible")
                         .HasColumnType("bit");
 
@@ -51,7 +54,41 @@ namespace flash_card_webbapp.Server.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DeckId");
+
                     b.ToTable("Cards");
+                });
+
+            modelBuilder.Entity("flash_card_webbapp.Server.Models.DbModels.DeckModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Decks");
+                });
+
+            modelBuilder.Entity("flash_card_webbapp.Server.Models.DbModels.CardModel", b =>
+                {
+                    b.HasOne("flash_card_webbapp.Server.Models.DbModels.DeckModel", "Decks")
+                        .WithMany("Cards")
+                        .HasForeignKey("DeckId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Decks");
+                });
+
+            modelBuilder.Entity("flash_card_webbapp.Server.Models.DbModels.DeckModel", b =>
+                {
+                    b.Navigation("Cards");
                 });
 #pragma warning restore 612, 618
         }

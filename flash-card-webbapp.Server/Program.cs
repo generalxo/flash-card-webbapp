@@ -13,6 +13,7 @@ namespace flash_card_webbapp.Server
             // Services
             builder.Services.AddScoped<CardRepository>();
             builder.Services.AddScoped<DeckRepository>();
+            builder.Services.AddScoped<UserRepository>();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

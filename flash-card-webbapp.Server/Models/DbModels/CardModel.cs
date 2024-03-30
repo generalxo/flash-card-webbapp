@@ -21,9 +21,10 @@ namespace flash_card_webbapp.Server.Models.DbModels
         public string? Answer { get; set; }
         public int Streak { get; set; } = 0;
         public bool IsReversible { get; set; } = false;
+
         // Foreign Key
         public Guid DeckId { get; set; }
-        // Navigation Properties
+        // Navigation Props
         public virtual DeckModel Decks { get; set; }
     }
 }

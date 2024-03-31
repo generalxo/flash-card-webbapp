@@ -17,7 +17,10 @@ const FromContainer = styled.div`
 const CreateDeckPage = () => {
     return(
         <PageContainer>
-            <h1>Create a New Deck</h1>
+            <h1>My Deck</h1>
+            <div>
+
+            </div>
             <FromContainer>
                 <CreateDeckForm />
             </FromContainer>

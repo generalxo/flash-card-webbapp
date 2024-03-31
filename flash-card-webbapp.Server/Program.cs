@@ -37,6 +37,9 @@ namespace flash_card_webbapp.Server
 
             app.UseHttpsRedirection();
 
+            app.UseCors(builder => 
+            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             app.UseAuthorization();
 
 

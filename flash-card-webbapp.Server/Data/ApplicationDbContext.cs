@@ -9,7 +9,7 @@ namespace flash_card_webbapp.Server.Data
             : base(options) { }
 
         // Entities
-        public DbSet<UserModel> Users { get; set; }
+        //public DbSet<UserModel> Users { get; set; }
         public DbSet<CardModel> Cards { get; set; }
         public DbSet<DeckModel> Decks { get; set; }
 
@@ -22,10 +22,10 @@ namespace flash_card_webbapp.Server.Data
                 .WithMany(d => d.Cards)
                 .HasForeignKey(c => c.DeckId);
 
-            modelBuilder.Entity<DeckModel>()
-                .HasOne(x => x.Users)
-                .WithMany(x => x.Decks)
-                .HasForeignKey(x => x.UserId);
+            //modelBuilder.Entity<DeckModel>()
+            //    .HasOne(x => x.Users)
+            //    .WithMany(x => x.Decks)
+            //    .HasForeignKey(x => x.UserId);
 
         }
     }

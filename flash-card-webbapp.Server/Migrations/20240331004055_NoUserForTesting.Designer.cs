@@ -12,8 +12,8 @@ using flash_card_webbapp.Server.Data;
 namespace flash_card_webbapp.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240330212122_UserAndDeckMapping")]
-    partial class UserAndDeckMapping
+    [Migration("20240331004055_NoUserForTesting")]
+    partial class NoUserForTesting
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,29 +73,9 @@ namespace flash_card_webbapp.Server.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Decks");
-                });
-
-            modelBuilder.Entity("flash_card_webbapp.Server.Models.DbModels.UserModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("flash_card_webbapp.Server.Models.DbModels.CardModel", b =>
@@ -111,23 +91,7 @@ namespace flash_card_webbapp.Server.Migrations
 
             modelBuilder.Entity("flash_card_webbapp.Server.Models.DbModels.DeckModel", b =>
                 {
-                    b.HasOne("flash_card_webbapp.Server.Models.DbModels.UserModel", "Users")
-                        .WithMany("Decks")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("flash_card_webbapp.Server.Models.DbModels.DeckModel", b =>
-                {
                     b.Navigation("Cards");
-                });
-
-            modelBuilder.Entity("flash_card_webbapp.Server.Models.DbModels.UserModel", b =>
-                {
-                    b.Navigation("Decks");
                 });
 #pragma warning restore 612, 618
         }

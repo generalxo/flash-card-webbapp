@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const FormContainer = styled.div`
     display: flex;
@@ -50,17 +51,37 @@ const Button = styled.button`
 `;
 
 const CreateDeckForm = () => {
+
+    const [deckTitle, setDeckTitle] = useState("");
+
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setDeckTitle(event.target.value);
+    };
+
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        // Send data to the server to create a new deck
-        // ajax maybe
+        
+        axios({
+            method: 'post',
+            url: 'https://localhost:7163/api/deck/create',
+            data: {
+                title: deckTitle
+            }
+        })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     };
 
     return (
         <FormContainer>
+            <h3>Create Deck</h3>
             <Form onSubmit={handleSubmit}>
                 <Label htmlFor="name">Name</Label>
-                <Input type="text" id="name" placeholder='My Deck Name'/>
+                <Input type="text" id="deckNameInput" value={deckTitle} onChange={handleChange} placeholder='My Deck Name' />
                 <Button type="submit"><p>Create Deck</p></Button>
             </Form>
         </FormContainer>

@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34714.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "flash-card-webbapp.client", "flash-card-webbapp.client\flash-card-webbapp.client.esproj", "{D5CF468C-B709-498E-9D26-4295458F9DE7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "flash-card-webbapp.Server", "flash-card-webbapp.Server\flash-card-webbapp.Server.csproj", "{3D7FFB2E-8666-45F1-BA9A-6F66E211EF5C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5CF468C-B709-498E-9D26-4295458F9DE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5CF468C-B709-498E-9D26-4295458F9DE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5CF468C-B709-498E-9D26-4295458F9DE7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D5CF468C-B709-498E-9D26-4295458F9DE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5CF468C-B709-498E-9D26-4295458F9DE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5CF468C-B709-498E-9D26-4295458F9DE7}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{3D7FFB2E-8666-45F1-BA9A-6F66E211EF5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D7FFB2E-8666-45F1-BA9A-6F66E211EF5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D7FFB2E-8666-45F1-BA9A-6F66E211EF5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D7FFB2E-8666-45F1-BA9A-6F66E211EF5C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {58E0B1FF-17CA-4346-8261-F1BD96B069EA}
+	EndGlobalSection
+EndGlobal

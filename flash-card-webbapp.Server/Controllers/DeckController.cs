@@ -43,7 +43,7 @@ namespace flash_card_webbapp.Server.Controllers
             return BadRequest();
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateDeck(CreateDeckRequestDto requestDto)
         {
             try

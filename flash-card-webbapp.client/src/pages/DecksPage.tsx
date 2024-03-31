@@ -1,6 +1,6 @@
 import styled from "styled-components";
 // created component
-import Header from "../components/Header/Header";
+import Header from "../components/header/Header";
 import CreateDeckForm from "../components/forms/CreateDeckForm";
 // styled components
 

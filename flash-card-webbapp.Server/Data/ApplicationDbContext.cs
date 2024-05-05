@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace flash_card_webbapp.Server.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<UserModel>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 
         // Entities
@@ -19,27 +19,6 @@ namespace flash_card_webbapp.Server.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            var userId = new Guid().ToString();
-            var adminId = new Guid().ToString();
-
-             var roles = new List<IdentityRole>
-            {
-                new IdentityRole
-                {
-                    Id = userId,
-                    ConcurrencyStamp = userId,
-                    Name = "User",
-                    NormalizedName = "USER"
-                },
-                new IdentityRole
-                {
-                    Id = adminId,
-                    ConcurrencyStamp = adminId,
-                    Name = "Admin",
-                    NormalizedName = "ADMIN"
-                }
-            };
 
             // Cards
             modelBuilder.Entity<CardModel>()

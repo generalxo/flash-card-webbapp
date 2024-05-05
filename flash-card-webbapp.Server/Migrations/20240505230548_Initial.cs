@@ -51,6 +51,19 @@ namespace flash_card_webbapp.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Decks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Decks", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -157,25 +170,6 @@ namespace flash_card_webbapp.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Decks",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserModelId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Decks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Decks_AspNetUsers_UserModelId",
-                        column: x => x.UserModelId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Cards",
                 columns: table => new
                 {
@@ -241,11 +235,6 @@ namespace flash_card_webbapp.Server.Migrations
                 name: "IX_Cards_DeckId",
                 table: "Cards",
                 column: "DeckId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Decks_UserModelId",
-                table: "Decks",
-                column: "UserModelId");
         }
 
         /// <inheritdoc />
@@ -273,10 +262,10 @@ namespace flash_card_webbapp.Server.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Decks");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Decks");
         }
     }
 }

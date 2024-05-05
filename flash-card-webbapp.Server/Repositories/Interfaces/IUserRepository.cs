@@ -2,7 +2,7 @@
 
 namespace flash_card_webbapp.Server.Repositories.Interfaces
 {
-    public interface IUserModel : IBaseRepository<UserModel>
+    public interface IUserRepository : IBaseRepository<UserModel>
     {
     }
 }

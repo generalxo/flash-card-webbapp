@@ -4,7 +4,7 @@ using flash_card_webbapp.Server.Repositories.Interfaces;
 
 namespace flash_card_webbapp.Server.Repositories.Repos
 {
-    public class UserRepository : BaseRepository<UserModel>, IUserModel
+    public class UserRepository : BaseRepository<UserModel>, IUserRepository
     {
         public UserRepository(ApplicationDbContext context) : base(context) { }
     }

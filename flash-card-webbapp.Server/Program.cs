@@ -37,22 +37,22 @@ namespace flash_card_webbapp.Server
                 });
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
                     {
+                        new OpenApiSecurityScheme
                         {
-                            new OpenApiSecurityScheme
+                            Reference = new OpenApiReference
                             {
-                                Reference = new OpenApiReference
-                                {
-                                    Type = ReferenceType.SecurityScheme,
-                                    Id = JwtBearerDefaults.AuthenticationScheme
-                                },
-                                Scheme = "Oauth2",
-                                Name = JwtBearerDefaults.AuthenticationScheme,
-                                In = ParameterLocation.Header
+                                Type = ReferenceType.SecurityScheme,
+                                Id = JwtBearerDefaults.AuthenticationScheme
                             },
-                            new List<string>()
-                        }
-                    });
+                            Scheme = "Oauth2",
+                            Name = JwtBearerDefaults.AuthenticationScheme,
+                            In = ParameterLocation.Header
+                        },
+                        new List<string>()
+                    }
+                });
             });
 
             //DbConection

@@ -2,6 +2,7 @@
 using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Models.DTOs.Response;
 using flash_card_webbapp.Server.Repositories.Repos;
+using flash_card_webbapp.Server.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -13,30 +14,35 @@ namespace flash_card_webbapp.Server.Controllers
     public class CardController : ControllerBase
     {
         private readonly CardRepository _cardRepository;
+        private readonly CardService _cardService;
 
-        public CardController(CardRepository cardRepository)
+        public CardController(CardRepository cardRepository, CardService cardService)
         {
             _cardRepository = cardRepository;
+            _cardService = cardService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllCards()
         {
             try
             {
-                var querry = await _cardRepository.GetAllAsync();
+                var cards = await _cardService.GetAllCards();
 
-                if (querry is null)
+                if (cards is null)
                     return NotFound();
 
-                var response = querry.Select(querry => new GetCardResponseDto
+                var response = cards.Select(card => new GetCardResponseDto
                 {
-                    Title = querry.Title,
-                    Question = querry.Question,
-                    Answer = querry.Answer,
-                    Streak = querry.Streak,
-                    IsReversible = querry.IsReversible
+                    Title = card.Title,
+                    Question = card.Question,
+                    Answer = card.Answer,
+                    Streak = card.Streak,
+                    IsReversible = card.IsReversible
                 });
+
+                if(response == null)
+                    return NotFound();
 
                 return Ok(response);
             }

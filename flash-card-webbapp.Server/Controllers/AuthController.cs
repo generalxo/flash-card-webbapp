@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace flash_card_webbapp.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {

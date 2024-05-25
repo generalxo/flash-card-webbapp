@@ -15,7 +15,7 @@ namespace flash_card_webbapp.Server.Models.MiscModels
         {
             for (int i = 0; i < RoleNamesLst.Count; i++)
             {
-                if (roleName == RoleNamesLst[i] || roleName == RoleNamesLst[i].ToUpper())
+                if (roleName.Equals(RoleNamesLst[i], StringComparison.CurrentCultureIgnoreCase))
                 {
                     return RoleNamesLst[0];
                 }

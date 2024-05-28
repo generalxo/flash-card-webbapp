@@ -2,6 +2,7 @@
 using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Models.DTOs.Response;
 using flash_card_webbapp.Server.Repositories.Repos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -10,6 +11,7 @@ namespace flash_card_webbapp.Server.Controllers
 {
     [Route("api/deck")]
     [ApiController]
+    [Authorize]
     public class DeckController : ControllerBase
     {
         private readonly DeckRepository _deckRepository;

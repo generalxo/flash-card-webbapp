@@ -1,8 +1,10 @@
 ﻿using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Models.DTOs.Response;
+using flash_card_webbapp.Server.Models.MiscModels;
 using flash_card_webbapp.Server.Repositories.Repos;
 using flash_card_webbapp.Server.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -11,6 +13,7 @@ namespace flash_card_webbapp.Server.Controllers
 {
     [Route("api/card")]
     [ApiController]
+    [Authorize]
     public class CardController : ControllerBase
     {
         private readonly CardRepository _cardRepository;
@@ -21,7 +24,6 @@ namespace flash_card_webbapp.Server.Controllers
             _cardRepository = cardRepository;
             _cardService = cardService;
         }
-
         [HttpGet]
         public async Task<IActionResult> GetAllCards()
         {

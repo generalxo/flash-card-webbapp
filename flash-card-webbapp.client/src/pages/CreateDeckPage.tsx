@@ -18,9 +18,6 @@ const CreateDeckPage = () => {
     return(
         <PageContainer>
             <h1>My Deck</h1>
-            <div>
-
-            </div>
             <FromContainer>
                 <CreateDeckForm />
             </FromContainer>

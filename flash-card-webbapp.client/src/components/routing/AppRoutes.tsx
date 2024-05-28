@@ -3,6 +3,7 @@
 import HomePage from '../../pages/HomePage';
 import DecksPage from '../../pages/DecksPage';
 import CreateDeckPage from '../../pages/CreateDeckPage';
+import LoginPage from '../../pages/LoginPage';
 
 const AppRoutes = [
     {
@@ -17,6 +18,10 @@ const AppRoutes = [
     {
         path: '/createDeck',
         Element:  <CreateDeckPage />,
+    },
+    {
+        path: '/login',
+        Element:  <LoginPage />,
     }
 ];
 

@@ -26,14 +26,14 @@ namespace flash_card_webbapp.Server.Controllers
         }
 
         [HttpPost]
-        [Route("Register")]
+        [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerRequestDto)
         {
+            // code for db actions needs to be moved to a service funtion
             var identityUser = new IdentityUser
             {
                 UserName = registerRequestDto.Username,
                 Email = registerRequestDto.Username
-
             };
             var identityResult = await _userManager.CreateAsync(identityUser, registerRequestDto.Password);
 
@@ -59,9 +59,10 @@ namespace flash_card_webbapp.Server.Controllers
         }
 
         [HttpPost]
-        [Route("Login")]
+        [Route("login")]
         public async Task<IActionResult> Login([FromBody] LogInRequestDto logInRequestDto)
         {
+            // code for db actions needs to be moved to a service funtion
             var user = await _userManager.FindByEmailAsync(logInRequestDto.Username);
 
             if (user != null)

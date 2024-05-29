@@ -2,6 +2,7 @@
 using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Models.DTOs.Response;
+using flash_card_webbapp.Server.Models.MiscModels;
 using flash_card_webbapp.Server.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -27,33 +28,28 @@ namespace flash_card_webbapp.Server.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerRequestDto)
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDto requstModel)
         {
             // code for db actions needs to be moved to a service funtion
+
+            if(ModelState.IsValid is false)
+                return BadRequest("Invalid data");
+
             var identityUser = new IdentityUser
             {
-                UserName = registerRequestDto.Username,
-                Email = registerRequestDto.Username
+                UserName = requstModel.Email,
+                Email = requstModel.Email
             };
-            var identityResult = await _userManager.CreateAsync(identityUser, registerRequestDto.Password);
+            var identityResult = await _userManager.CreateAsync(identityUser, requstModel.Password);
 
             if (identityResult.Succeeded)
             { 
-                List<string> userRole = new() { "Admin" };
+                List<string> userRole = new() { RoleName.User };
                 identityResult = await _userManager.AddToRolesAsync(identityUser, userRole);
                 if (identityResult.Succeeded)
                 {
-                    // Add new user to db
-                    var user = new UserModel
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        Email = registerRequestDto.Username
-                    };
-                    await _context.Users.AddAsync(user);
-                    await _context.SaveChangesAsync();
                     return Ok("The user was registered! You can now login");
                 }
-
             }
             return BadRequest("Sorry, it did not work this time");
         }
@@ -63,7 +59,7 @@ namespace flash_card_webbapp.Server.Controllers
         public async Task<IActionResult> Login([FromBody] LogInRequestDto logInRequestDto)
         {
             // code for db actions needs to be moved to a service funtion
-            var user = await _userManager.FindByEmailAsync(logInRequestDto.Username);
+            var user = await _userManager.FindByEmailAsync(logInRequestDto.Email);
 
             if (user != null)
             {
@@ -74,7 +70,7 @@ namespace flash_card_webbapp.Server.Controllers
                     var roles = await _userManager.GetRolesAsync(user);
                     if (roles != null)
                     {
-                        var jwttoken = _tokenRepository.CreateJWTToken(user, roles.ToList());
+                        var jwttoken = _tokenRepository.CreateJWTToken(user, [.. roles]);
                         var response = new LogInResponseDto
                         {
                             AccessToken = jwttoken

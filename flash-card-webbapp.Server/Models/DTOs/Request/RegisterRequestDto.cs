@@ -6,7 +6,7 @@ namespace flash_card_webbapp.Server.Models.DTOs.Request
     {
         [Required]
         [DataType(DataType.EmailAddress)]
-        public string Username { get; set; }
+        public string Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }

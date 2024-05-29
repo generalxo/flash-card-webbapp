@@ -6,6 +6,9 @@ namespace flash_card_webbapp.Server.Models.MiscModels
     {
         public List<string> RoleNamesLst = new List<string> { "Admin", "User" };
 
+        public const string Admin = "Admin";
+        public const string User = "User";
+
         public List<string> GetRoleNamesLstStr()
         {
             return RoleNamesLst;

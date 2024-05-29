@@ -1,4 +1,5 @@
 ﻿using flash_card_webbapp.Server.Models.DbModels;
+using flash_card_webbapp.Server.Models.MiscModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,29 @@ namespace flash_card_webbapp.Server.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            var userRoleId = Guid.NewGuid().ToString();
+            var adminRoleId = Guid.NewGuid().ToString();
+
+            var roles = new List<IdentityRole>
+            {
+                new IdentityRole
+                {
+                    Id = userRoleId,
+                    ConcurrencyStamp = userRoleId,
+                    Name = RoleName.User,
+                    NormalizedName = RoleName.User.ToUpper()
+                },
+                new IdentityRole
+                {
+                    Id = adminRoleId,
+                    ConcurrencyStamp = adminRoleId,
+                    Name = RoleName.Admin,
+                    NormalizedName = RoleName.Admin.ToUpper()
+                }
+            };
+
+            modelBuilder.Entity<IdentityRole>().HasData(roles);
 
             // Cards
             modelBuilder.Entity<CardModel>()

@@ -2,84 +2,72 @@
 using flash_card_webbapp.Server.Helpers;
 using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Models.DTOs.Request;
-using flash_card_webbapp.Server.Models.DTOs.Response;
-using flash_card_webbapp.Server.Repositories.Interfaces;
-using Microsoft.AspNetCore.Http;
+using flash_card_webbapp.Server.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace flash_card_webbapp.Server.Controllers
 {
     [Route("api/auth")]
+    [Authorize(Roles = RoleName.Admin)]
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly ITokenRepository _tokenRepository;
-        private readonly ApplicationDbContext _context;
+        private readonly UserService _userService;
 
-
-        public AuthController(UserManager<IdentityUser> userManager, ITokenRepository tokenRepository, ApplicationDbContext context)
+        public AuthController(UserService userService)
         {
-            _userManager = userManager;
-            _tokenRepository = tokenRepository;
-            _context = context;
+            _userService = userService;
         }
 
+        //[ValidateAntiForgeryToken]
+
         [HttpPost]
+        [AllowAnonymous]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequestDto requstModel)
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDto requestModel)
         {
-            // code for db actions needs to be moved to a service funtion
-
-            if(ModelState.IsValid is false)
-                return BadRequest("Invalid data");
-
-            var identityUser = new IdentityUser
+            try
             {
-                UserName = requstModel.Email,
-                Email = requstModel.Email
-            };
-            var identityResult = await _userManager.CreateAsync(identityUser, requstModel.Password);
+                if (!ModelState.IsValid)
+                    return BadRequest("Sorry, it did not work this time");
 
-            if (identityResult.Succeeded)
-            { 
-                List<string> userRole = new() { RoleName.User };
-                identityResult = await _userManager.AddToRolesAsync(identityUser, userRole);
-                if (identityResult.Succeeded)
+                var user = await _userService.RegisterUser(requestModel);
+                if (user == null)
+                    return BadRequest("Sorry, it did not work this time");
+
+                if (!await _userService.AddRoleToUser(user, RoleName.User))
                 {
-                    return Ok("The user was registered! You can now login");
+                    // Delete the user here if the role was not added. User requires a role for Authorization
+                    return BadRequest("Sorry, it did not work this time");
                 }
+
+                return Ok("User created successfully");
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
             return BadRequest("Sorry, it did not work this time");
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LogInRequestDto logInRequestDto)
         {
-            // code for db actions needs to be moved to a service funtion
-            var user = await _userManager.FindByEmailAsync(logInRequestDto.Email);
+            if (!ModelState.IsValid)
+                return BadRequest("Sorry, it did not work this time");
 
-            if (user != null)
-            {
-                var checkPasswordResult = await _userManager.CheckPasswordAsync(user, logInRequestDto.Password);
-                if (checkPasswordResult)
-                {
-                    // get a role for the user
-                    var roles = await _userManager.GetRolesAsync(user);
-                    if (roles != null)
-                    {
-                        var jwttoken = _tokenRepository.CreateJWTToken(user, [.. roles]);
-                        var response = new LogInResponseDto
-                        {
-                            AccessToken = jwttoken
-                        };
-                        return Ok(response);
-                    }
-                }
-            }
-            return BadRequest("username or password was incorrect");
+            var loginResponse = await _userService.LoginUser(logInRequestDto);
+
+            if (loginResponse == null)
+                return BadRequest("Sorry, it did not work this time");
+
+            return Ok(loginResponse);
         }
     }
 }

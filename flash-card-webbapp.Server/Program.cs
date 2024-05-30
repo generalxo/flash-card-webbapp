@@ -1,6 +1,8 @@
 using flash_card_webbapp.Server.Data;
+using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Repositories.Interfaces;
 using flash_card_webbapp.Server.Repositories.Repos;
+using flash_card_webbapp.Server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,12 +17,6 @@ namespace flash_card_webbapp.Server
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            // Services
-            builder.Services.AddScoped<CardRepository>();
-            builder.Services.AddScoped<DeckRepository>();
-            builder.Services.AddScoped<UserRepository>();
-            builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -59,8 +55,7 @@ namespace flash_card_webbapp.Server
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddIdentityCore<IdentityUser>()
-                .AddRoles<IdentityRole>()
+            builder.Services.AddIdentity<UserModel, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -98,6 +93,14 @@ namespace flash_card_webbapp.Server
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
                 });
+
+            // Services
+            builder.Services.AddScoped<CardRepository>();
+            builder.Services.AddScoped<DeckRepository>();
+            builder.Services.AddScoped<UserRepository>();
+            builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+            builder.Services.AddTransient<UserService>();
+            //builder.Services.AddScoped<CardService>();
 
             var app = builder.Build();
 

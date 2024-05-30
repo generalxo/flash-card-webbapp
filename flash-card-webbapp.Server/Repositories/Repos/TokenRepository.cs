@@ -22,10 +22,9 @@ namespace flash_card_webbapp.Server.Repositories.Repos
             claims.Add(new Claim(ClaimTypes.Name, user.UserName));
             claims.Add(new Claim(ClaimTypes.Email, user.Email));
 
-
-            foreach (var role in roles)
+            for(int i = 0; i < roles.Count; i++)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                claims.Add(new Claim(ClaimTypes.Role, roles[i]));
             }
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

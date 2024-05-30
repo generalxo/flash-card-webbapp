@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace flash_card_webbapp.Server.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
+    public class ApplicationDbContext : IdentityDbContext<UserModel, IdentityRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }

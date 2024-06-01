@@ -3,7 +3,7 @@
 import HomePage from '../../pages/HomePage';
 import DecksPage from '../../pages/DecksPage';
 import CreateDeckPage from '../../pages/CreateDeckPage';
-import LoginPage from '../../pages/LoginPage';
+import LoginPage from '../../pages/login/LoginPage';
 
 const AppRoutes = [
     {

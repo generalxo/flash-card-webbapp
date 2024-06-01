@@ -1,9 +1,8 @@
 import styled from "styled-components";
-// Created Components
-import LoginForm from "../components/forms/LoginForm";
-import SignupForm from "../components/forms/SignupForm";
-import H2 from "../components/text/H2";
 
+import LoginFormController from "./LoginFormController";
+
+// Created Components
 const StyledFormContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -15,13 +14,10 @@ const LoginPage = () => {
     return (
         <>
             <StyledFormContainer>
-                <H2>Login</H2>
-                <LoginForm />
-                <H2>Sign Up</H2>
-                <SignupForm />
+                <LoginFormController />
             </StyledFormContainer>
         </>
     );
-}
+};
 
 export default LoginPage;

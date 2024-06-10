@@ -19,11 +19,17 @@ namespace flash_card_webbapp.Server.Models.DbModels
         [Required]
         [MaxLength(500)]
         public string? Answer { get; set; }
+        public string? OptionString { get; set; }
+
+        [Required]
         public int Streak { get; set; } = 0;
-        public bool IsReversible { get; set; } = false;
+        [Required]
+        public int BlankPos { get; set; } = 0;
+
 
         // Foreign Key
         public Guid DeckId { get; set; }
+
         // Navigation Props
         public virtual DeckModel Decks { get; set; }
     }

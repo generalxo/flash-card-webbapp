@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using flash_card_webbapp.Server.Data;
 
@@ -11,9 +12,11 @@ using flash_card_webbapp.Server.Data;
 namespace flash_card_webbapp.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240610174704_Card")]
+    partial class Card
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,15 +54,15 @@ namespace flash_card_webbapp.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "25a26922-ecf2-4d80-a5f9-b95cc342f58f",
-                            ConcurrencyStamp = "25a26922-ecf2-4d80-a5f9-b95cc342f58f",
+                            Id = "35b34ce2-9e6f-4248-b6e7-d592f3b87739",
+                            ConcurrencyStamp = "35b34ce2-9e6f-4248-b6e7-d592f3b87739",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "a93b881f-08c2-42a2-9a5b-2297f480b5e9",
-                            ConcurrencyStamp = "a93b881f-08c2-42a2-9a5b-2297f480b5e9",
+                            Id = "60919699-9cf5-4840-b682-e3d773bd4008",
+                            ConcurrencyStamp = "60919699-9cf5-4840-b682-e3d773bd4008",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -222,16 +225,15 @@ namespace flash_card_webbapp.Server.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UsersId")
+                    b.Property<string>("UserModelId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("UserModelId");
 
                     b.ToTable("Decks");
                 });
@@ -365,11 +367,9 @@ namespace flash_card_webbapp.Server.Migrations
 
             modelBuilder.Entity("flash_card_webbapp.Server.Models.DbModels.DeckModel", b =>
                 {
-                    b.HasOne("flash_card_webbapp.Server.Models.DbModels.UserModel", "Users")
+                    b.HasOne("flash_card_webbapp.Server.Models.DbModels.UserModel", null)
                         .WithMany("Decks")
-                        .HasForeignKey("UsersId");
-
-                    b.Navigation("Users");
+                        .HasForeignKey("UserModelId");
                 });
 
             modelBuilder.Entity("flash_card_webbapp.Server.Models.DbModels.DeckModel", b =>

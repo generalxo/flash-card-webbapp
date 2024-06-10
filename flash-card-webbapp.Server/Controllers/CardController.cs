@@ -17,11 +17,13 @@ namespace flash_card_webbapp.Server.Controllers
     {
         private readonly CardRepository _cardRepository;
         private readonly CardService _cardService;
+        private readonly UserRepository _userRepo;
 
-        public CardController(CardRepository cardRepository, CardService cardService)
+        public CardController(CardRepository cardRepository, CardService cardService, UserRepository userRepo)
         {
             _cardRepository = cardRepository;
             _cardService = cardService;
+            _userRepo = userRepo;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllCards()
@@ -38,8 +40,7 @@ namespace flash_card_webbapp.Server.Controllers
                     Title = card.Title,
                     Question = card.Question,
                     Answer = card.Answer,
-                    Streak = card.Streak,
-                    IsReversible = card.IsReversible
+                    Streak = card.Streak
                 });
 
                 if(response == null)
@@ -55,27 +56,20 @@ namespace flash_card_webbapp.Server.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateCard(CreateCardRequestDto requestDto)
+        public async Task<IActionResult> CreateCard(CreateCardRequestDto requestDto, Guid userId) // this will change to get the user from the token, but for now it will be passed in
         {
             try
             {
                 if(ModelState.IsValid is false)
                     return BadRequest();
 
-                CardModel card = new()
+                var user = await _userRepo.GetById(userId);
+                if (user is not null)
                 {
-                    Title = requestDto.Title,
-                    Question = requestDto.Question,
-                    Answer = requestDto.Answer,
-                    IsReversible = requestDto.IsReversible,
-                    DeckId = requestDto.DeckId
-                };
-
-                await _cardRepository.CreateAsync(card);
-                int result = await _cardRepository.SaveAsync();
-
-                if(result is 0)
-                    return BadRequest();
+                    int lineChanges = await _cardService.CreateCard(requestDto, user);
+                    if(lineChanges == 0)
+                        return BadRequest();
+                }
 
                 return Ok();
             }

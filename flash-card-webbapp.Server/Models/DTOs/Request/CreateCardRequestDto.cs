@@ -12,7 +12,8 @@ namespace flash_card_webbapp.Server.Models.DTOs.Request
         public string? Question { get; set; }
         [Required(ErrorMessage = "Answer is requiered")]
         public string? Answer { get; set; }
-        [Required(ErrorMessage = "IsReversible is requiered")]
-        public bool IsReversible { get; set; }
+        [Required(ErrorMessage = "BlankPos is requiered")]
+        public int BlankPos { get; set; }
+        public string? OptionString { get; set; }
     }
 }

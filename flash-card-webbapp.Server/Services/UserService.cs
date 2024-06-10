@@ -33,6 +33,9 @@ namespace flash_card_webbapp.Server.Services
                 if(roles is not null)
                 {
                     var token = _tokenRepository.CreateJWTToken(user, [.. roles]);
+                    if(string.IsNullOrEmpty(token))
+                        return null;
+
                     return new LogInResponseDto
                     {
                         AccessToken = token

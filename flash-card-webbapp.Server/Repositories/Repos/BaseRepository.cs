@@ -26,6 +26,12 @@ namespace flash_card_webbapp.Server.Repositories.Repos
             return result.AsQueryable();
         }
 
+        public async Task<T?> GetById(Guid id)
+        {
+            var result = await _applicationDbContext.Set<T>().FindAsync(id);
+            return result;
+        }
+
         public async Task CreateAsync(T entity)
         {
             await _applicationDbContext.Set<T>().AddAsync(entity);

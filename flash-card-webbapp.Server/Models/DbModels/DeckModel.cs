@@ -18,10 +18,10 @@ namespace flash_card_webbapp.Server.Models.DbModels
 
         // Foreign Key's
         [Required]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         //Navigation Props
-        //public virtual UserModel Users { get; set; }
+        public virtual UserModel Users { get; set; }
         public List<CardModel> Cards { get; set; }
     }
 }

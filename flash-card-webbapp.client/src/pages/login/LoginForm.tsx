@@ -32,24 +32,26 @@ const LoginForm: React.FC = () => {
     };
 
     return (
-        <LoginFormContainer>
-            <StyledLoginForm onSubmit={handleSubmit}>
-                <H2>Login</H2>
-                <Input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <Input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <ModularBtn type="submit" text="Login"/>
-            </StyledLoginForm>
-        </LoginFormContainer>
+        <>
+            <LoginFormContainer>
+                <StyledLoginForm onSubmit={handleSubmit}>
+                    <H2>Login</H2>
+                    <Input
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <Input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <ModularBtn type="submit" text="Login"/>
+                </StyledLoginForm>
+            </LoginFormContainer>
+        </>
     );
 };
 

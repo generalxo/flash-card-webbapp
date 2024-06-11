@@ -8,8 +8,7 @@ namespace flash_card_webbapp.Server.Data
 {
     public class ApplicationDbContext : IdentityDbContext<UserModel, IdentityRole, string>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         // Entities
         //public DbSet<UserModel> Users { get; set; }
@@ -50,10 +49,10 @@ namespace flash_card_webbapp.Server.Data
                 .WithMany(d => d.Cards)
                 .HasForeignKey(c => c.DeckId);
 
-            //modelBuilder.Entity<DeckModel>()
-            //    .HasOne(x => x.Users)
-            //    .WithMany(x => x.Decks)
-            //    .HasForeignKey(x => x.UserId);
+            modelBuilder.Entity<DeckModel>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.Decks)
+                .HasForeignKey(x => x.UserId);
 
         }
     }

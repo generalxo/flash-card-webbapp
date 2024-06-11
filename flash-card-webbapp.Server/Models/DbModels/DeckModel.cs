@@ -21,7 +21,7 @@ namespace flash_card_webbapp.Server.Models.DbModels
         public string UserId { get; set; }
 
         //Navigation Props
-        public virtual UserModel Users { get; set; }
+        public virtual UserModel User { get; set; }
         public List<CardModel> Cards { get; set; }
     }
 }

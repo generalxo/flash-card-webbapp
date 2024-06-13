@@ -28,6 +28,22 @@ namespace flash_card_webbapp.Server.Services
             return decks;
         }
 
+        public async Task<bool> CreateDeck(CreateDeckRequestDto requestDto, string userId)
+        {
+            // Fix me once stuff is working
+            DeckModel newDeck = new();
+            newDeck.Title = requestDto.Title;
+            newDeck.UserId = userId;
+
+            await _deckRepository.CreateAsync(newDeck);
+            int result = await _deckRepository.SaveAsync();
+
+            if (result is 0)
+                return false;
+
+            return true;
+        }
+
         public async Task<bool> IsDeckOwner(Guid deckId, IdentityUser user)
         {
             var deckQuery = await _deckRepository.GetByConditionAsync(x => x.Id == deckId);

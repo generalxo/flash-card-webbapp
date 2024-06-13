@@ -2,10 +2,12 @@
 using flash_card_webbapp.Server.Helpers;
 using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Models.DTOs.Request;
+using flash_card_webbapp.Server.Repositories.Repos;
 using flash_card_webbapp.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 
 namespace flash_card_webbapp.Server.Controllers
@@ -57,17 +59,24 @@ namespace flash_card_webbapp.Server.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LogInRequestDto logInRequestDto)
+        public async Task<IActionResult> Login(LogInRequestDto logInRequestDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Sorry, it did not work this time");
 
-            var loginResponse = await _userService.LoginUser(logInRequestDto);
-
-            if (loginResponse == null)
+            var token = await _userService.LoginUser(logInRequestDto);
+            if (string.IsNullOrEmpty(token))
                 return BadRequest("Sorry, it did not work this time");
 
-            return Ok(loginResponse);
+            Response.Cookies.Append("token", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None, // change to Strict when not in development
+                Expires = DateTime.Now.AddMinutes(20)
+            });
+
+            return Ok();
         }
     }
 }

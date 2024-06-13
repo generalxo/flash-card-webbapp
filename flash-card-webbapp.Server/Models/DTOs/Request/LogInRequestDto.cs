@@ -11,6 +11,7 @@ namespace flash_card_webbapp.Server.Models.DTOs.Request
         public string? Email { get; set; }
         [Required]
         [NotNull]
+        [MinLength(6)]
         [DataType(DataType.Password)]
         public string? Password { get; set; }
     }

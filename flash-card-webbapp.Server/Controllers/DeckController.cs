@@ -2,6 +2,7 @@
 using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Models.DTOs.Response;
 using flash_card_webbapp.Server.Repositories.Repos;
+using flash_card_webbapp.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +15,11 @@ namespace flash_card_webbapp.Server.Controllers
     [Authorize]
     public class DeckController : ControllerBase
     {
-        private readonly DeckRepository _deckRepository;
+        private readonly DeckService _deckService;
 
-        public DeckController(DeckRepository deckRepository)
+        public DeckController(DeckService deckService)
         {
-            _deckRepository = deckRepository;
+            _deckService = deckService;
         }
 
         [HttpGet]
@@ -26,17 +27,9 @@ namespace flash_card_webbapp.Server.Controllers
         {
             try
             {
-                var querry = await _deckRepository.GetAllAsync();
+                
 
-                if (querry is null)
-                    return NotFound();
-
-                var response = querry.Select(querry => new GetDeckResponseDto
-                {
-                    Title = querry.Title
-                });
-
-                return Ok(response);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -46,20 +39,16 @@ namespace flash_card_webbapp.Server.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateDeck(CreateDeckRequestDto requestDto)
+        public async Task<IActionResult> CreateDeck([FromBody] CreateDeckRequestDto requestDto, string userId) // Change me later
         {
             try
             {
                 if(ModelState.IsValid is false)
                     return BadRequest();
 
-                DeckModel newDeck = new();
-                newDeck.Title = requestDto.Title;
+                var result = await _deckService.CreateDeck(requestDto, userId);
 
-                await _deckRepository.CreateAsync(newDeck);
-                int result = await _deckRepository.SaveAsync();
-
-                if (result is 0)
+                if (result is false)
                     return BadRequest();
 
                 return Ok();

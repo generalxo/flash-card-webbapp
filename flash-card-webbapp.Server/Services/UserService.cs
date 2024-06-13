@@ -18,7 +18,7 @@ namespace flash_card_webbapp.Server.Services
             _tokenRepository = tokenRepository;
         }
 
-        public async Task<LogInResponseDto?> LoginUser(LogInRequestDto model)
+        public async Task<string?> LoginUser(LogInRequestDto model)
         {
             try
             {
@@ -36,10 +36,7 @@ namespace flash_card_webbapp.Server.Services
                     if(string.IsNullOrEmpty(token))
                         return null;
 
-                    return new LogInResponseDto
-                    {
-                        AccessToken = token
-                    };
+                    return token;
                 }
             }
             catch (Exception ex)

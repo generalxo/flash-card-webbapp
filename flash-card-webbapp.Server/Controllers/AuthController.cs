@@ -1,13 +1,8 @@
-﻿using flash_card_webbapp.Server.Data;
-using flash_card_webbapp.Server.Helpers;
-using flash_card_webbapp.Server.Models.DbModels;
+﻿using flash_card_webbapp.Server.Helpers;
 using flash_card_webbapp.Server.Models.DTOs.Request;
-using flash_card_webbapp.Server.Repositories.Repos;
 using flash_card_webbapp.Server.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 
 namespace flash_card_webbapp.Server.Controllers
@@ -24,7 +19,7 @@ namespace flash_card_webbapp.Server.Controllers
             _userService = userService;
         }
 
-        //[ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken] ADD ME!!!
 
         [HttpPost]
         [AllowAnonymous]
@@ -61,22 +56,32 @@ namespace flash_card_webbapp.Server.Controllers
         [Route("login")]
         public async Task<IActionResult> Login(LogInRequestDto logInRequestDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest("Sorry, it did not work this time");
-
-            var token = await _userService.LoginUser(logInRequestDto);
-            if (string.IsNullOrEmpty(token))
-                return BadRequest("Sorry, it did not work this time");
-
-            Response.Cookies.Append("token", token, new CookieOptions
+            // test@test.com Test123
+            try
             {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.None, // change to Strict when not in development
-                Expires = DateTime.Now.AddMinutes(20)
-            });
+                if (!ModelState.IsValid)
+                    return BadRequest("Sorry, it did not work this time");
 
-            return Ok();
+                var token = await _userService.LoginUser(logInRequestDto);
+                if (string.IsNullOrEmpty(token))
+                    return BadRequest("Sorry, it did not work this time");
+
+                Response.Cookies.Append("token", token, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None, // change to Strict when not in development
+                    Expires = DateTime.Now.AddMinutes(20)
+                });
+
+                return Ok("Welcome!");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return BadRequest();
+            
         }
     }
 }

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import H2 from '../../components/text/H2';
 import ModularBtn from '../../components/button/ModularBtn';
+import ApiClient from '../../components/misc/ApiClient';
+import axios from 'axios';
 
 const LoginFormContainer = styled.div`
     display: flex;
@@ -24,11 +26,25 @@ const Input = styled.input`
 
 const LoginForm: React.FC = () => {
     const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+
+    const login = async (email: string, password: string) => {
+        try {
+            const response = await ApiClient.post('/auth/login', { email, password });
+            console.log('Response:', response.data);
+        } catch (error) {
+            // do something with the error later!
+            if (axios.isAxiosError(error)) {
+                console.error('Axios error:', error.response?.data);
+            } else {
+                console.error('Unexpected error:', error);
+            }
+        }
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle login logic here
+        login(email, password);
     };
 
     return (
@@ -38,9 +54,9 @@ const LoginForm: React.FC = () => {
                     <H2>Login</H2>
                     <Input
                         type="text"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="example@email.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <Input
                         type="password"

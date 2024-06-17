@@ -1,4 +1,5 @@
-﻿using flash_card_webbapp.Server.Models.DbModels;
+﻿using flash_card_webbapp.Server.Helpers;
+using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Models.DTOs.Response;
 using flash_card_webbapp.Server.Repositories.Repos;
@@ -12,14 +13,16 @@ namespace flash_card_webbapp.Server.Controllers
 {
     [Route("api/deck")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = RoleName.User)]
     public class DeckController : ControllerBase
     {
         private readonly DeckService _deckService;
+        private readonly UserService _userService;
 
-        public DeckController(DeckService deckService)
+        public DeckController(DeckService deckService, UserService userService)
         {
             _deckService = deckService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -27,7 +30,10 @@ namespace flash_card_webbapp.Server.Controllers
         {
             try
             {
-                
+                if(Request.Cookies.TryGetValue("userId", out var userId) is false)
+                    return BadRequest();
+
+                Debug.WriteLine(userId);
 
                 return Ok();
             }
@@ -39,10 +45,13 @@ namespace flash_card_webbapp.Server.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateDeck([FromBody] CreateDeckRequestDto requestDto, string userId) // Change me later
+        public async Task<IActionResult> CreateDeck([FromBody] CreateDeckRequestDto requestDto)
         {
             try
             {
+                if(Request.Cookies.TryGetValue("userId", out var userId) is false)
+                    return BadRequest();
+
                 if(ModelState.IsValid is false)
                     return BadRequest();
 

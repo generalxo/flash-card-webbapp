@@ -10,5 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\components\jwt\" />
+    <Folder Include="src\components\misc\" />
   </ItemGroup>
 </Project>

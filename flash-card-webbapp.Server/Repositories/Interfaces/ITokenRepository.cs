@@ -5,5 +5,7 @@ namespace flash_card_webbapp.Server.Repositories.Interfaces
     public interface ITokenRepository
     {
         string CreateJWTToken(IdentityUser user, List<string> roles);
+
+        public string? GetTokenUserId(string token);
     }
 }

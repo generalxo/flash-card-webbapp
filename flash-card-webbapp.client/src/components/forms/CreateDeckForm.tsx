@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import ApiClient from '../misc/ApiClient';
 
 const FormContainer = styled.div`
     display: flex;
@@ -58,22 +59,23 @@ const CreateDeckForm = () => {
         setDeckTitle(event.target.value);
     };
 
+    const request = async () => {
+        try {
+            const response = await ApiClient.post('/deck/create', { title: deckTitle }, { withCredentials: true });
+            console.log('Response:', response.data);
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.error('Axios error:', error.response?.data);
+            } else {
+                console.error('Unexpected error:', error);
+            }
+        }
+    }
+
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        
-        axios({
-            method: 'post',
-            url: 'https://localhost:7163/api/deck/create',
-            data: {
-                title: deckTitle
-            }
-        })
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+        console.log("Title: ", deckTitle)
+        request();
     };
 
     return (

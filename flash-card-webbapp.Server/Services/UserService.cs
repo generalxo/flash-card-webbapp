@@ -1,7 +1,5 @@
-﻿using flash_card_webbapp.Server.Helpers;
-using flash_card_webbapp.Server.Models.DbModels;
+﻿using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Models.DTOs.Request;
-using flash_card_webbapp.Server.Models.DTOs.Response;
 using flash_card_webbapp.Server.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System.Diagnostics;
@@ -76,6 +74,11 @@ namespace flash_card_webbapp.Server.Services
         {
             var identityResult = await _userManager.AddToRoleAsync(user, role);
             return identityResult.Succeeded;
-        }   
+        }
+
+        public string? GetTokenUserId(string token)
+        {
+            return _tokenRepository.GetTokenUserId(token);
+        }
     }
 }

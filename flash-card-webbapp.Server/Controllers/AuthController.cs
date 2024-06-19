@@ -51,6 +51,7 @@ namespace flash_card_webbapp.Server.Controllers
             return BadRequest("Sorry, it did not work this time");
         }
 
+
         [HttpPost]
         [AllowAnonymous]
         [Route("login")]
@@ -70,7 +71,7 @@ namespace flash_card_webbapp.Server.Controllers
                 {
                     HttpOnly = true,
                     Secure = true,
-                    SameSite = SameSiteMode.None, // change to Strict when not in development
+                    SameSite = SameSiteMode.Strict, // change to Strict when not in development
                     Expires = DateTime.Now.AddMinutes(20)
                 });
 
@@ -81,7 +82,32 @@ namespace flash_card_webbapp.Server.Controllers
                 Debug.WriteLine(ex);
             }
             return BadRequest();
-            
         }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("logout")]
+        public IActionResult Logout()
+        {
+            try
+            {
+                Response.Cookies.Append("token", "", new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTime.Now.AddDays(-1)
+                });
+        
+                return Ok("Logged out successfully");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return BadRequest("Logout failed");
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 using flash_card_webbapp.Server.Data;
+using flash_card_webbapp.Server.Middleware;
 using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Repositories.Interfaces;
 using flash_card_webbapp.Server.Repositories.Repos;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 namespace flash_card_webbapp.Server
@@ -29,7 +31,7 @@ namespace flash_card_webbapp.Server
                 options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
-                    In = ParameterLocation.Header,
+                    In = ParameterLocation.Cookie,
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = JwtBearerDefaults.AuthenticationScheme
                 });
@@ -44,9 +46,9 @@ namespace flash_card_webbapp.Server
                                 Type = ReferenceType.SecurityScheme,
                                 Id = JwtBearerDefaults.AuthenticationScheme
                             },
-                            Scheme = "Oauth2",
+                            Scheme = "ApiKey",
                             Name = JwtBearerDefaults.AuthenticationScheme,
-                            In = ParameterLocation.Header
+                            In = ParameterLocation.Cookie
                         },
                         new List<string>()
                     }
@@ -73,32 +75,32 @@ namespace flash_card_webbapp.Server
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy(name: "BlazorCors",
-                    policy =>
-                    {
-                        //policy.WithOrigins("https://localhost:7021")
-                        policy.AllowAnyOrigin()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                    });
+                options.AddPolicy("AllowSpecificOrigin", policy =>
+                {
+                    policy.WithOrigins("https://localhost:5173")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+                });
             });
 
             builder.Services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddCookie(options =>
-            {
-                options.Cookie.Name = "token";
-                options.Cookie.HttpOnly = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Ensures the cookie is always sent over HTTPS
-                options.Cookie.SameSite = SameSiteMode.None; // Strict -> Mitigates CSRF attacks.|-> Change to it when not on development
-            })
+            //.AddCookie(options =>
+            //{
+            //    options.Cookie.Name = "token";
+            //    options.Cookie.HttpOnly = true;
+            //    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Ensures the cookie is always sent over HTTPS
+            //    options.Cookie.SameSite = SameSiteMode.None; // Strict -> Mitigates CSRF attacks.|-> Change to it when not on development
+            //    options.SlidingExpiration = true;
+            //    options.AccessDeniedPath = "/login/";
+            //})
             .AddJwtBearer(options =>
             {
-                options.SaveToken = true;
+                //options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     SaveSigninToken = true,
@@ -108,20 +110,22 @@ namespace flash_card_webbapp.Server
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = builder.Configuration["Jwt:Issuer"],
                     ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
                 };
-                options.Events = new JwtBearerEvents
-                {
-                    OnMessageReceived = context =>
-                    {
-                        context.Token = context.Request.Cookies["token"];
-                        return Task.CompletedTask;
-                    }
-                };
+                //options.Events = new JwtBearerEvents
+                //{
+                //    OnMessageReceived = context =>
+                //    {
+                //        context.Token = context.Request.Cookies["token"];
+                //        return Task.CompletedTask;
+                //    }
+                //};
             });
 
+
             // Services
+            builder.Services.AddScoped<JwtSecurityTokenHandler>();
+            // Created Services
             builder.Services.AddScoped<CardRepository>();
             builder.Services.AddScoped<DeckRepository>();
             builder.Services.AddScoped<UserRepository>();
@@ -129,17 +133,7 @@ namespace flash_card_webbapp.Server
             builder.Services.AddTransient<UserService>();
             builder.Services.AddScoped<CardService>();
             builder.Services.AddScoped<DeckService>();
-
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowSpecificOrigin", builder =>
-                    {
-                        builder.WithOrigins("https://localhost:5173") // Replace with your React app's URL
-                               .AllowAnyHeader()
-                               .AllowAnyMethod()
-                               .AllowCredentials();
-                    });
-            });
+            
 
             var app = builder.Build();
 
@@ -153,9 +147,15 @@ namespace flash_card_webbapp.Server
                 app.UseSwaggerUI();
             }
 
+            app.UseCookiePolicy(new CookiePolicyOptions{
+                MinimumSameSitePolicy = SameSiteMode.None,
+            });
+
             app.UseHttpsRedirection();
 
             app.UseCors("AllowSpecificOrigin");
+
+            app.UseMiddleware<TokenHandlerMiddleware>();
 
             app.UseAuthentication();
             app.UseAuthorization();

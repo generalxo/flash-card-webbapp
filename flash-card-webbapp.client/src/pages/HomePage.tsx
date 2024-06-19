@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 //Created Components
+import LogoutButton from '../components/button/LogoutBtn';
 
 /* Notes:
     css variables are used in the styled components.
@@ -49,6 +50,7 @@ const HomePage = () => {
                 <div>
                     <a href="/Decks">Decks</a>
                 </div>
+                <LogoutButton />
             </MenuContainer>
         </>
     );

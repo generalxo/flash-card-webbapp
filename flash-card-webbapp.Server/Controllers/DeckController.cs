@@ -1,19 +1,15 @@
-﻿using flash_card_webbapp.Server.Helpers;
-using flash_card_webbapp.Server.Models.DbModels;
-using flash_card_webbapp.Server.Models.DTOs.Request;
-using flash_card_webbapp.Server.Models.DTOs.Response;
-using flash_card_webbapp.Server.Repositories.Repos;
+﻿using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace flash_card_webbapp.Server.Controllers
 {
     [Route("api/deck")]
+    [Authorize(Roles = "User")]
     [ApiController]
-    [Authorize(Roles = RoleName.User)]
     public class DeckController : ControllerBase
     {
         private readonly DeckService _deckService;
@@ -25,34 +21,19 @@ namespace flash_card_webbapp.Server.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            try
-            {
-                if(Request.Cookies.TryGetValue("userId", out var userId) is false)
-                    return BadRequest();
-
-                Debug.WriteLine(userId);
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-            return BadRequest();
-        }
-
         [HttpPost("create")]
-        public async Task<IActionResult> CreateDeck([FromBody] CreateDeckRequestDto requestDto)
+        public async Task<IActionResult> CreateDeck(CreateDeckRequestDto requestDto)
         {
             try
             {
-                if(Request.Cookies.TryGetValue("userId", out var userId) is false)
+                if(ModelState.IsValid is false)
                     return BadRequest();
 
-                if(ModelState.IsValid is false)
+                if (Request.Cookies.TryGetValue("token", out var token) is false)
+                    return BadRequest();
+                
+                var userId = _userService.GetTokenUserId(token);
+                if(string.IsNullOrEmpty(userId))
                     return BadRequest();
 
                 var result = await _deckService.CreateDeck(requestDto, userId);

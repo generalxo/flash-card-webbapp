@@ -1,4 +1,5 @@
 ﻿using flash_card_webbapp.Server.Models.DTOs.Request;
+using flash_card_webbapp.Server.Models.DTOs.Response;
 using flash_card_webbapp.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace flash_card_webbapp.Server.Controllers
             _userService = userService;
         }
 
+
         [HttpPost("create")]
         public async Task<IActionResult> CreateDeck(CreateDeckRequestDto requestDto)
         {
@@ -37,7 +39,6 @@ namespace flash_card_webbapp.Server.Controllers
                     return BadRequest();
 
                 var result = await _deckService.CreateDeck(requestDto, userId);
-
                 if (result is false)
                     return BadRequest();
 
@@ -49,5 +50,35 @@ namespace flash_card_webbapp.Server.Controllers
             }
             return BadRequest();
         }
+
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllDecks()
+        {
+            try
+            {
+                if (Request.Cookies.TryGetValue("token", out var token) is false)
+                    return BadRequest();
+
+                var decks = await _deckService.GetDecks(token);
+                if (decks is null)
+                    return BadRequest();
+
+                var response = new DeckResponseDto
+                {
+                    Titles = decks.Select(x => x.Title).ToList()
+                };
+
+                if (response != null && response.Titles.Count != 0)
+                    return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return BadRequest();
+        }
+
+
     }
 }

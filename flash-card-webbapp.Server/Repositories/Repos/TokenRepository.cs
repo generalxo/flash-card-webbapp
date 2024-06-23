@@ -37,8 +37,7 @@ namespace flash_card_webbapp.Server.Repositories.Repos
                 // Claims
                 var claims = new List<Claim>
                 {
-                    new("userId", user.Id),
-                    //new(ClaimTypes.Role, "User")
+                    new("userId", user.Id)
                 };
                 claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 

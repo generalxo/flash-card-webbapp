@@ -34,11 +34,10 @@ namespace flash_card_webbapp.Server.Services
         {
             try
             {
-                var user = await _userService.GetUserById(userId);
-                if (user is null)
+                if(string.IsNullOrEmpty(userId))
                     return 0;
 
-                if (await _deckService.IsDeckOwner(requestModel.DeckId, user))
+                if (await _deckService.IsDeckOwner(requestModel.DeckId.ToString(), userId))
                 {
                     CardModel newCard = new();
                     newCard.DeckId = requestModel.DeckId;
@@ -59,6 +58,32 @@ namespace flash_card_webbapp.Server.Services
                 Debug.WriteLine(ex);
             }
             return 0;
+        }
+
+        public async Task<CardModel?> GetCardById(Guid cardId)
+        {
+            var card = await _cardRepository.GetById(cardId);
+
+            if (card is null)
+                return null;
+
+            return card;
+        }
+
+        public async Task<List<CardModel>?> GetCardsByDeckId(string deckId)
+        {
+            if (Guid.TryParse(deckId, out Guid deckGuid) == false)
+                return null;
+
+            var query = await _cardRepository.GetByConditionAsync(x => x.DeckId == deckGuid);
+            if (query is null)
+                return null;
+
+            var cards = query.ToList();
+            if (!cards.Any())
+                return null;
+
+            return cards;
         }
     }
 }

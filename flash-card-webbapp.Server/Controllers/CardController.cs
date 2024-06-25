@@ -14,41 +14,15 @@ namespace flash_card_webbapp.Server.Controllers
     {
         private readonly CardService _cardService;
         private readonly UserService _userService;
+        private readonly DeckService _deckService;
 
-        public CardController(CardService cardService, UserService userService)
+        public CardController(CardService cardService, UserService userService, DeckService deckService)
         {
             _userService = userService;
             _cardService = cardService;
+            _deckService = deckService;
         }
-        [HttpGet]
-        public async Task<IActionResult> GetAllCards()
-        {
-            try
-            {
-                var cards = await _cardService.GetAllCards();
 
-                if (cards is null)
-                    return NotFound();
-
-                var response = cards.Select(card => new GetCardResponseDto
-                {
-                    Title = card.Title,
-                    Question = card.Question,
-                    Answer = card.Answer,
-                    Streak = card.Streak
-                });
-
-                if(response == null)
-                    return NotFound();
-
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-            return BadRequest();
-        }
 
         [HttpPost("create")]
         public async Task<IActionResult> CreateCard(CreateCardRequestDto requestDto)
@@ -70,6 +44,41 @@ namespace flash_card_webbapp.Server.Controllers
                     return BadRequest();
 
                 return Ok("Card succesfully created");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return BadRequest();
+        }
+
+
+        [HttpGet("cards/{deckId}")]
+        public async Task<IActionResult> GetCards(string deckId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(deckId))
+                    return BadRequest();
+
+                if(Request.Cookies.TryGetValue("token", out var token) is false)
+                    return BadRequest();
+
+                var userId = _userService.GetTokenUserId(token);
+                if (string.IsNullOrEmpty(token))
+                    return BadRequest();
+
+                bool isDeckOwner = await _deckService.IsDeckOwner(deckId, userId);
+                if (isDeckOwner is false)
+                    return BadRequest();
+
+                var cards = await _cardService.GetCardsByDeckId(deckId);
+                if (cards is null || cards.Count == 0)
+                    return NotFound();
+
+                CardListResponseDto responseDto = new CardListResponseDto(cards);
+                if(ModelState.IsValid)
+                    return Ok(responseDto);
             }
             catch (Exception ex)
             {

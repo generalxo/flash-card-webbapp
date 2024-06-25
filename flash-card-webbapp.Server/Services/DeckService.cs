@@ -56,15 +56,18 @@ namespace flash_card_webbapp.Server.Services
         }
 
 
-        public async Task<bool> IsDeckOwner(Guid deckId, IdentityUser user)
+        public async Task<bool> IsDeckOwner(string deckId, string userId)
         {
-            var deckQuery = await _deckRepository.GetByConditionAsync(x => x.Id == deckId);
+            if(Guid.TryParse(deckId, out Guid deckGuid) == false)
+                return false;
+
+            var deckQuery = await _deckRepository.GetByConditionAsync(x => x.Id == deckGuid);
             if (deckQuery is null)
                 return false;
 
             var deck = await deckQuery.SingleAsync();
 
-            if (deck.UserId.ToString() != user.Id)
+            if (deck.UserId.ToString() != userId)
                 return false;
 
             return true;

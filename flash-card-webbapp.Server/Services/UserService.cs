@@ -1,6 +1,7 @@
 ﻿using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Repositories.Interfaces;
+using flash_card_webbapp.Server.Repositories.Repos;
 using Microsoft.AspNetCore.Identity;
 using System.Diagnostics;
 
@@ -10,10 +11,12 @@ namespace flash_card_webbapp.Server.Services
     {
         private readonly UserManager<UserModel> _userManager;
         private readonly ITokenRepository _tokenRepository;
-        public UserService(UserManager<UserModel> userManager, ITokenRepository tokenRepository)
+        private readonly UserRepository _userRepository;
+        public UserService(UserManager<UserModel> userManager, ITokenRepository tokenRepository, UserRepository userRepository)
         {
             _userManager = userManager;
             _tokenRepository = tokenRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<string?> LoginUser(LogInRequestDto model)
@@ -79,6 +82,12 @@ namespace flash_card_webbapp.Server.Services
         public string? GetTokenUserId(string token)
         {
             return _tokenRepository.GetTokenUserId(token);
+        }
+
+        public async Task<UserModel?> GetUserById(string userId)
+        {
+            var guid = Guid.Parse(userId);
+            return await _userRepository.GetById(guid);
         }
     }
 }

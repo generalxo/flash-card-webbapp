@@ -1,8 +1,6 @@
-﻿using flash_card_webbapp.Server.Migrations;
-using flash_card_webbapp.Server.Models.DbModels;
+﻿using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Repositories.Repos;
-using Microsoft.AspNetCore.Identity;
 using System.Diagnostics;
 
 namespace flash_card_webbapp.Server.Services
@@ -11,8 +9,10 @@ namespace flash_card_webbapp.Server.Services
     {
         private readonly CardRepository _cardRepository;
         private readonly DeckService _deckService;
-        public CardService(CardRepository cardRepository, DeckService deckService)
+        private readonly UserService _userService;
+        public CardService(CardRepository cardRepository, DeckService deckService, UserService userService)
         {
+            _userService = userService;
             _cardRepository = cardRepository;
             _deckService = deckService;
         }
@@ -30,10 +30,14 @@ namespace flash_card_webbapp.Server.Services
             return cards;
         }
 
-        public async Task<int> CreateCard(CreateCardRequestDto requestModel, IdentityUser user)
+        public async Task<int> CreateCard(CreateCardRequestDto requestModel, string userId)
         {
             try
             {
+                var user = await _userService.GetUserById(userId);
+                if (user is null)
+                    return 0;
+
                 if (await _deckService.IsDeckOwner(requestModel.DeckId, user))
                 {
                     CardModel newCard = new();
@@ -49,20 +53,12 @@ namespace flash_card_webbapp.Server.Services
 
                     return result;
                 }
-
-
-                
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
             }
-            // validate all dto properties before creating the card later
-
             return 0;
-
-
-            
         }
     }
 }

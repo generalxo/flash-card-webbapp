@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace flash_card_webbapp.Server.Models.DbModels
 {
@@ -19,6 +18,7 @@ namespace flash_card_webbapp.Server.Models.DbModels
         [Required]
         [MaxLength(500)]
         public string? Answer { get; set; }
+        [MaxLength(500)]
         public string? OptionString { get; set; }
 
         [Required]

@@ -1,10 +1,7 @@
-﻿using flash_card_webbapp.Server.Models.DbModels;
-using flash_card_webbapp.Server.Models.DTOs.Request;
+﻿using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Models.DTOs.Response;
-using flash_card_webbapp.Server.Repositories.Repos;
 using flash_card_webbapp.Server.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -12,18 +9,16 @@ namespace flash_card_webbapp.Server.Controllers
 {
     [Route("api/card")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "User")]
     public class CardController : ControllerBase
     {
-        private readonly CardRepository _cardRepository;
         private readonly CardService _cardService;
-        private readonly UserRepository _userRepo;
+        private readonly UserService _userService;
 
-        public CardController(CardRepository cardRepository, CardService cardService, UserRepository userRepo)
+        public CardController(CardService cardService, UserService userService)
         {
-            _cardRepository = cardRepository;
+            _userService = userService;
             _cardService = cardService;
-            _userRepo = userRepo;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllCards()
@@ -56,22 +51,25 @@ namespace flash_card_webbapp.Server.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateCard(CreateCardRequestDto requestDto, Guid userId) // this will change to get the user from the token, but for now it will be passed in
+        public async Task<IActionResult> CreateCard(CreateCardRequestDto requestDto)
         {
             try
             {
                 if(ModelState.IsValid is false)
                     return BadRequest();
 
-                var user = await _userRepo.GetById(userId);
-                if (user is not null)
-                {
-                    int lineChanges = await _cardService.CreateCard(requestDto, user);
-                    if(lineChanges == 0)
-                        return BadRequest();
-                }
+                if(Request.Cookies.TryGetValue("token", out var token) is false)
+                    return BadRequest();
 
-                return Ok();
+                var userId = _userService.GetTokenUserId(token);
+                if(string.IsNullOrEmpty(token))
+                    return BadRequest();
+
+                var result = await _cardService.CreateCard(requestDto, userId);
+                if(result == 0)
+                    return BadRequest();
+
+                return Ok("Card succesfully created");
             }
             catch (Exception ex)
             {

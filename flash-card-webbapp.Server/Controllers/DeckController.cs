@@ -4,7 +4,6 @@ using flash_card_webbapp.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace flash_card_webbapp.Server.Controllers
 {

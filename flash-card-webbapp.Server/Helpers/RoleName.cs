@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace flash_card_webbapp.Server.Helpers
+﻿namespace flash_card_webbapp.Server.Helpers
 {
     public class RoleName
     {

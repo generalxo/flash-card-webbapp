@@ -1,11 +1,11 @@
-import React from 'react';
-import ApiClient from '../../../components/misc/ApiClient';
+import { useEffect, useState } from 'react';
+import ApiClient from '../../components/misc/ApiClient';
 
 const DeckListMaper: React.FC = () => {
 
-    const [decks, setDecks] = React.useState<CardListI>([]);
+    const [decks, setDecks] = useState<CardListI>([]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const request = async () => {
             try {
                 const response = await ApiClient.get('/deck/all');
@@ -25,6 +25,6 @@ const DeckListMaper: React.FC = () => {
             })}
         </>
     );
-}
+};
 
 export default DeckListMaper;

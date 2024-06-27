@@ -1,8 +1,7 @@
 // AppRoutes will handle all the App routes for the webb app
 // Created Imports
 import HomePage from '../../pages/HomePage';
-import DecksPage from '../../pages/DecksPage';
-import CreateDeckPage from '../../pages/CreateDeckPage';
+import DecksPage from '../../pages/deck/DeckPage';
 import LoginPage from '../../pages/login/LoginPage';
 
 const AppRoutes = [
@@ -14,10 +13,6 @@ const AppRoutes = [
     {
         path: '/decks',
         Element:  <DecksPage />,
-    },
-    {
-        path: '/createDeck',
-        Element:  <CreateDeckPage />,
     },
     {
         path: '/login',

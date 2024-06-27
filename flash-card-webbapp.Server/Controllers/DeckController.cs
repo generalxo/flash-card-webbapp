@@ -61,7 +61,7 @@ namespace flash_card_webbapp.Server.Controllers
 
                 var decks = await _deckService.GetDecks(token);
                 if (decks is null)
-                    return BadRequest();
+                    return NotFound();
 
                 var response = new DeckResponseDto
                 {

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import ApiClient from '../../components/misc/ApiClient';
+import Deck from '../deck/Deck';
 
 const DeckListMaper: React.FC = () => {
 
-    const [decks, setDecks] = useState<CardListI>([]);
+    const [decks, setDecks] = useState<DeckListI>([]);
 
     useEffect(() => {
         const request = async () => {
@@ -21,7 +22,7 @@ const DeckListMaper: React.FC = () => {
     return (
         <>
             {decks.map((deck, index) => {
-                // render the decks here using a component
+                <Deck key={index} {...deck} />
             })}
         </>
     );

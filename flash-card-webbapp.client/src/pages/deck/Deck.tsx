@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import Styled from 'styled-components';
 
 /* To do when basic functionality is done.
@@ -18,12 +17,19 @@ const DeckContainer = Styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: .75rem;
 `;
 
-const Deck: React.FC = () => {
+const StyledTitle = Styled.h3`
+    text-align: center;
+`;
+
+const Deck: React.FC<DeckI> = (deck: DeckI) => {
     return (
         <>
-            <p>temp</p>
+            <DeckContainer>
+                <StyledTitle>{deck.Title}</StyledTitle>
+            </DeckContainer>
         </>
     );
 };

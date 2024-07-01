@@ -9,7 +9,6 @@
     <PublishAssetsDirectory>$(MSBuildProjectDirectory)\dist</PublishAssetsDirectory>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\components\jwt\" />
     <Folder Include="src\components\misc\" />
     <Folder Include="src\pages\card\" />
   </ItemGroup>

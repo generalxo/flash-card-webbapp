@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import ApiClient from '../../components/misc/ApiClient';
 import Deck from '../deck/Deck';
+import { useFetchDecks } from '../../components/hooks/useFetchDecks';
 
 const DeckContainer = styled.div`
     display: flex;
@@ -11,36 +10,28 @@ const DeckContainer = styled.div`
     margin-top: 1rem;
 `;
 
-interface DeckI {
-    Title: string;
-}
-
 const DeckListMaper: React.FC = () => {
-    const [decks, setDecks] = useState<DeckI[]>([]);
+    const { decks, loading, error } = useFetchDecks();
 
-    useEffect(() => {
-        const request = async () => {
-            try {
-                const response = await ApiClient.get('/deck/all');
-                //console.log("response:", response.data)
-                const deckData = response.data.decks.map((deck: { title: string }) => ({ Title: deck.title }));
-                setDecks(deckData);
-                //console.log("setDecks:", deckData);
-            } catch (e) {
-                //console.error('Error:', e);
-                setDecks([]);
-            }
-        };
-        request();
-    }, []);
+    // Create better loading, error and 0 Cards handeling
 
-    //console.log("Decks:", decks);
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
+    if (error) {
+        return <div>{error}</div>
+    }
+
+    if (decks.length == 0) {
+        return <div>Create your first deck !</div>
+    }
 
     return (
         <>
             <DeckContainer>
                 {decks.map((deck, index) => (
-                    <Deck key={index} Title={deck.Title} />
+                    <Deck key={index} title={deck.title} />
                 ))}
             </DeckContainer>
         </>

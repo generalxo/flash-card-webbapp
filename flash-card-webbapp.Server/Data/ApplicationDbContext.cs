@@ -15,13 +15,14 @@ namespace flash_card_webbapp.Server.Data
         public DbSet<CardModel> Cards { get; set; }
         public DbSet<DeckModel> Decks { get; set; }
 
+        // Role Guids
+        private static readonly string userRoleId = "23bce2e1-62b8-460e-9407-ea9afff34c7f";
+        private static readonly string adminRoleId = "415b4160-d9b1-4e3c-bcdf-738b5cbd0648";
+
         // Mapping Foreign Keys
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            var userRoleId = Guid.NewGuid().ToString();
-            var adminRoleId = Guid.NewGuid().ToString();
 
             var roles = new List<IdentityRole>
             {

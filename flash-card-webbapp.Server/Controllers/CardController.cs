@@ -39,8 +39,7 @@ namespace flash_card_webbapp.Server.Controllers
                 if(string.IsNullOrEmpty(token))
                     return BadRequest();
 
-                var result = await _cardService.CreateCard(requestDto, userId);
-                if(result == 0)
+                if(!await _cardService.CreateCard(requestDto, userId))
                     return BadRequest();
 
                 return Ok("Card succesfully created");

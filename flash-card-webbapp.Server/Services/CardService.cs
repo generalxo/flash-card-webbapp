@@ -10,11 +10,13 @@ namespace flash_card_webbapp.Server.Services
         private readonly CardRepository _cardRepository;
         private readonly DeckService _deckService;
         private readonly UserService _userService;
-        public CardService(CardRepository cardRepository, DeckService deckService, UserService userService)
+        private readonly DeckRepository _deckRepository;
+        public CardService(CardRepository cardRepository, DeckService deckService, UserService userService, DeckRepository deckRepository)
         {
             _userService = userService;
             _cardRepository = cardRepository;
             _deckService = deckService;
+            _deckRepository = deckRepository;
         }
 
         public async Task<IQueryable<CardModel>?> GetAllCards()
@@ -30,15 +32,19 @@ namespace flash_card_webbapp.Server.Services
             return cards;
         }
 
-        public async Task<int> CreateCard(CreateCardRequestDto requestModel, string userId)
+        public async Task<bool> CreateCard(CreateCardRequestDto requestModel, string userId)
         {
             try
             {
                 if(string.IsNullOrEmpty(userId))
-                    return 0;
+                    return false;
 
                 if (await _deckService.IsDeckOwner(requestModel.DeckId.ToString(), userId))
                 {
+                    var deck = await _deckRepository.GetById(requestModel.DeckId);
+                    if (deck is null)
+                        return false;
+
                     CardModel newCard = new();
                     newCard.DeckId = requestModel.DeckId;
                     newCard.Title = requestModel.Title;
@@ -46,18 +52,24 @@ namespace flash_card_webbapp.Server.Services
                     newCard.Answer = requestModel.Answer;
                     newCard.BlankPos = requestModel.BlankPos;
                     newCard.OptionString = requestModel.OptionString;
+                    newCard.DeckId = requestModel.DeckId;
 
                     await _cardRepository.CreateAsync(newCard);
-                    int result = await _cardRepository.SaveAsync();
+                    deck.CardCount++;
+                    _deckRepository.Update(deck);
 
-                    return result;
+                    var changes = await _cardRepository.SaveAsync();
+                    if(changes >= 2)
+                        return false;
+
+                    return true;
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
             }
-            return 0;
+            return false;
         }
 
         public async Task<CardModel?> GetCardById(Guid cardId)

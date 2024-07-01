@@ -15,6 +15,10 @@ namespace flash_card_webbapp.Server.Models.DbModels
         [NotNull]
         public string? Title { get; set; }
 
+        [Required]
+        [NotNull]
+        public int CardCount { get; set; }
+
         // Foreign Key's
         [Required]
         public string UserId { get; set; }

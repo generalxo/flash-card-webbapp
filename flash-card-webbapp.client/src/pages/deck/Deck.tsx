@@ -17,7 +17,7 @@ const StyledTitle = Styled.h3`
     color: var(--tc-p);
 `;
 
-function Deck(props:DeckI) {
+function Deck(props:IDeck) {
     //console.log('props', props);
 
     const HandleClick = () => {
@@ -27,8 +27,8 @@ function Deck(props:DeckI) {
 
     return (
         <>
-            <DeckContainer onClick={ HandleClick }>
-                <StyledTitle>{props.Title}</StyledTitle>
+            <DeckContainer onClick={HandleClick}>
+                <StyledTitle>{props.title}</StyledTitle>
             </DeckContainer>
         </>
     );
@@ -45,4 +45,6 @@ export default Deck;
 
     Idea 2.
     Create a deck that looks like a playing card deck, with a title on it, stats on it and a play btn.
+
+    Idea 3. Let the user customize the deck card, with a background image, title, and stats for example.
 */ 

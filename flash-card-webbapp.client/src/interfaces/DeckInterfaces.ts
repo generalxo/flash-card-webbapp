@@ -1,7 +1,7 @@
-interface DeckI {
-    Title: string;
+interface IDeck {
+    title: string;
 }
 
-interface DeckListMaperI {
-    Decks: DeckI[];
+interface IDeckLst {
+    decks: IDeck[];
 }

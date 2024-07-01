@@ -21,7 +21,9 @@ const DeckPage = () => {
             <DeckPageContainer>
                 <StyledTitle>My Decks</StyledTitle>
                 <CreateDeckForm />
-                <DeckListMaper />
+                <div>
+                    <DeckListMaper />
+                </div>
             </DeckPageContainer>
         </>
     );

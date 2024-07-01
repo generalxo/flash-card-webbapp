@@ -1,5 +1,41 @@
 import Styled from 'styled-components';
 
+const DeckContainer = Styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 16rem;
+    min-height: 9rem;
+    padding: .75rem;
+    background-color: var(--mc-s);
+    border-radius: var(--r-s);
+`;
+
+const StyledTitle = Styled.h3`
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--tc-p);
+`;
+
+function Deck(props:DeckI) {
+    //console.log('props', props);
+
+    const HandleClick = () => {
+        console.log('props', props);
+        // Will later take us to the card list page.
+    }
+
+    return (
+        <>
+            <DeckContainer onClick={ HandleClick }>
+                <StyledTitle>{props.Title}</StyledTitle>
+            </DeckContainer>
+        </>
+    );
+};
+
+export default Deck;
+
 /* To do when basic functionality is done.
     Idea 1.
     Have a stack of cards that gets larger as you add more cards to it, above the cards will be the title of the deck.
@@ -10,28 +46,3 @@ import Styled from 'styled-components';
     Idea 2.
     Create a deck that looks like a playing card deck, with a title on it, stats on it and a play btn.
 */ 
-
-
-
-const DeckContainer = Styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: .75rem;
-`;
-
-const StyledTitle = Styled.h3`
-    text-align: center;
-`;
-
-const Deck: React.FC<DeckI> = (deck: DeckI) => {
-    return (
-        <>
-            <DeckContainer>
-                <StyledTitle>{deck.Title}</StyledTitle>
-            </DeckContainer>
-        </>
-    );
-};
-
-export default Deck;

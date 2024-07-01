@@ -63,12 +63,12 @@ namespace flash_card_webbapp.Server.Controllers
                 if (decks is null)
                     return NotFound();
 
-                var response = new DeckResponseDto
+                var response = new DecksResponseDto
                 {
-                    Titles = decks.Select(x => x.Title).ToList()
+                    Decks = decks.Select(x => new DeckResponseDto { Title = x.Title }).ToArray()
                 };
 
-                if (response != null && response.Titles.Count != 0)
+                if (response != null && response.Decks.Length != 0)
                     return Ok(response);
             }
             catch (Exception ex)

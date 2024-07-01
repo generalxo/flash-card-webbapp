@@ -2,6 +2,13 @@
 {
     public class DeckResponseDto
     {
-        public List<string>? Titles { get; set; }
+        public string Title { get; set; }
     }
+
+    public class DecksResponseDto
+    {
+        public DeckResponseDto[] Decks { get; set; }
+    }
+
+
 }

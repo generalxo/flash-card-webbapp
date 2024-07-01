@@ -1,8 +1,8 @@
 interface CardI {
-    Title: string | null;
-    Question: string | null;
-    Answer: string | null;
-    OptionString?: string | null;
+    Title: string;
+    Question: string;
+    Answer: string;
+    OptionString?: string;
     Streak: number;
     BlankPos: number;
 }

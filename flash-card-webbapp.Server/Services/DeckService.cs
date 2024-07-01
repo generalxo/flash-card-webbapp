@@ -86,7 +86,7 @@ namespace flash_card_webbapp.Server.Services
                 if(query == null || !query.Any())
                     return null;
 
-                var decks = await query.ToListAsync();
+                var decks = query.ToList();
 
                 return decks;
             }

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Deck from '../deck/Deck';
+import Deck from './Deck';
 import { useFetchDecks } from '../../components/hooks/useFetchDecks';
 
 const DeckContainer = styled.div`
@@ -10,7 +10,7 @@ const DeckContainer = styled.div`
     margin-top: 1rem;
 `;
 
-const DeckListMaper: React.FC = () => {
+const DeckListMapper: React.FC = () => {
     const { decks, loading, error } = useFetchDecks();
 
     // Create better loading, error and 0 Cards handeling
@@ -38,4 +38,4 @@ const DeckListMaper: React.FC = () => {
     );
 }
 
-export default DeckListMaper;
+export default DeckListMapper;

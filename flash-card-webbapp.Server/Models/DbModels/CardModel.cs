@@ -10,9 +10,6 @@ namespace flash_card_webbapp.Server.Models.DbModels
 
         // Properties
         [Required]
-        [MaxLength(100)]
-        public string? Title { get; set; }
-        [Required]
         [MaxLength(500)]
         public string? Question { get; set; }
         [Required]

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import DeckListMaper from '../deck/DeckListMaper';
+import DeckListMapper from './DeckListMapper';
 import CreateDeckForm from '../../components/forms/CreateDeckForm';
 
 const DeckPageContainer = styled.div`
@@ -22,7 +22,7 @@ const DeckPage = () => {
                 <StyledTitle>My Decks</StyledTitle>
                 <CreateDeckForm />
                 <div>
-                    <DeckListMaper />
+                    <DeckListMapper />
                 </div>
             </DeckPageContainer>
         </>

@@ -97,5 +97,39 @@ namespace flash_card_webbapp.Server.Services
             return null;
         }
 
+
+        public DeckModel? CreateDeckFromDto(CreateDeckRequestDto requestDto, string userId)
+        {
+            try
+            {
+                DeckModel newDeck = new DeckModel
+                {
+                    Id = Guid.Parse(requestDto.Id),
+                    Title = requestDto.Title,
+                    CardCount = requestDto.CardCount,
+                    UserId = userId
+                };
+
+                return newDeck;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return null;
+        }
+
+
+        public CreateDeckRequestDto CreateDto(DeckModel deckModel)
+        {
+            CreateDeckRequestDto requestDto = new CreateDeckRequestDto
+            {
+                Id = deckModel.Id.ToString(),
+                Title = deckModel.Title,
+                CardCount = deckModel.CardCount
+            };
+            return requestDto;
+        }
+
     }
 }

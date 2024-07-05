@@ -4,11 +4,9 @@ using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Repositories.Interfaces;
 using flash_card_webbapp.Server.Repositories.Repos;
 using flash_card_webbapp.Server.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
@@ -21,6 +19,8 @@ namespace flash_card_webbapp.Server
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            var confi
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -163,7 +163,7 @@ namespace flash_card_webbapp.Server
 
             app.MapControllers();
 
-            app.MapFallbackToFile("/index.html");
+            app.MapFallbackToFile("/");
 
             app.Run();
         }

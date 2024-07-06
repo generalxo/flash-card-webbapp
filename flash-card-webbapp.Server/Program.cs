@@ -20,8 +20,6 @@ namespace flash_card_webbapp.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            var confi
-
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
 

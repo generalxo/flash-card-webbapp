@@ -10,7 +10,7 @@ export const useFetchDecks = () => {
         const fetchDecks = async () => {
             try {
                 const response = await ApiClient.get<IDeckLst>('/deck/all');
-                const deckData = response.data.decks.map((deck) => ({ title: deck.title }));
+                const deckData: IDeck[] = response.data.decks;
                 setDecks(deckData);
             } catch (err) {
                 setError('Failed to fetch decks');
@@ -20,6 +20,5 @@ export const useFetchDecks = () => {
         };
         fetchDecks();
     }, []);
-
     return { decks, loading, error };
 };

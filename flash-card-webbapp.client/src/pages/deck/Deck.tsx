@@ -23,6 +23,7 @@ function Deck(props:IDeck) {
     const HandleClick = () => {
         console.log('props', props);
         // Will later take us to the card list page.
+        window.location.href = `/cards/${props.id}`;
     }
 
     return (

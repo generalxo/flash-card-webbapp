@@ -20,7 +20,7 @@ const AppRoutes = [
         Element:  <LoginPage />,
     },
     {
-        path: '/cards',
+        path: '/cards/:id',
         Element: <CardPage />,
     }
 ];

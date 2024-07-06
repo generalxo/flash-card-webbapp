@@ -52,7 +52,7 @@ namespace flash_card_webbapp.Server.Controllers
         }
 
 
-        [HttpGet("cards/{deckId}")]
+        [HttpGet("deck/{deckId}")]
         public async Task<IActionResult> GetCards(string deckId)
         {
             try
@@ -75,7 +75,7 @@ namespace flash_card_webbapp.Server.Controllers
                 if (cards is null || cards.Count == 0)
                     return NotFound();
 
-                CardListResponseDto responseDto = new CardListResponseDto(cards);
+                CardListResponseDto responseDto = new(cards);
                 if(ModelState.IsValid)
                     return Ok(responseDto);
             }

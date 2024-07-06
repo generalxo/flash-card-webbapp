@@ -47,7 +47,6 @@ namespace flash_card_webbapp.Server.Services
 
                     CardModel newCard = new();
                     newCard.DeckId = requestModel.DeckId;
-                    newCard.Title = requestModel.Title;
                     newCard.Question = requestModel.Question;
                     newCard.Answer = requestModel.Answer;
                     newCard.BlankPos = requestModel.BlankPos;

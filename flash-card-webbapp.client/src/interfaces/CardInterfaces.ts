@@ -1,15 +1,14 @@
 interface ICard {
-    Id: string;
-    Title: string;
-    Question: string;
-    Answer: string;
-    OptionString?: string;
-    Streak: number;
-    BlankPos: number;
-    DeckId: string;
+    id: string;
+    question: string;
+    answer: string;
+    optionString?: string;
+    streak: number;
+    blankPos: number;
+    deckId: string;
 }
 
-interface ICardList {
-    Cards: ICard[];
+interface ICardLst {
+    cards: ICard[];
 }
 

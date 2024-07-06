@@ -21,7 +21,6 @@ namespace flash_card_webbapp.Server.Models.DTOs.Response
 
         public CardResponseDto(CardModel cardModel)
         {
-            Title = cardModel.Title;
             Question = cardModel.Question;
             Answer = cardModel.Answer;
             OptionString = cardModel.OptionString;

@@ -31,7 +31,7 @@ const DeckListMapper: React.FC = () => {
         <>
             <DeckContainer>
                 {decks.map((deck, index) => (
-                    <Deck key={index} title={deck.title} />
+                    <Deck key={index} id={deck.id} title={deck.title} cardCount={deck.cardCount} />
                 ))}
             </DeckContainer>
         </>

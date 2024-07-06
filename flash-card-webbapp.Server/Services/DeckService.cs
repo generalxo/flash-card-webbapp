@@ -65,7 +65,7 @@ namespace flash_card_webbapp.Server.Services
             if (deckQuery is null)
                 return false;
 
-            var deck = await deckQuery.SingleAsync();
+            var deck = deckQuery.Single();
 
             if (deck.UserId.ToString() != userId)
                 return false;

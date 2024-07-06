@@ -1,4 +1,5 @@
-﻿using flash_card_webbapp.Server.Models.DTOs.Request;
+﻿using flash_card_webbapp.Server.Models.DbModels;
+using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Models.DTOs.Response;
 using flash_card_webbapp.Server.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -63,10 +64,7 @@ namespace flash_card_webbapp.Server.Controllers
                 if (decks is null)
                     return NotFound();
 
-                var response = new DecksResponseDto
-                {
-                    Decks = decks.Select(x => new DeckResponseDto { Title = x.Title }).ToArray()
-                };
+                var response = DecksToDto(decks);
 
                 if (response != null && response.Decks.Length != 0)
                     return Ok(response);
@@ -78,6 +76,25 @@ namespace flash_card_webbapp.Server.Controllers
             return BadRequest();
         }
 
+
+        private DeckResponseDto DeckToDto(DeckModel deck)
+        {
+            DeckResponseDto dto = new();
+            dto.Id = deck.Id.ToString();
+            dto.Title = deck.Title;
+            dto.CardCount = deck.CardCount;
+
+            return dto;
+        }
+
+
+        private DecksResponseDto DecksToDto(List<DeckModel> decks)
+        {
+            DecksResponseDto dto = new();
+            dto.Decks = decks.Select(x => DeckToDto(x)).ToArray();
+
+            return dto;
+        }
 
     }
 }

@@ -8,8 +8,11 @@ export const useFetchCards = (deckId: string) => {
 
     useEffect(() => {
         const fetchCards = async () => {
+            setLoading(true);
+            setError(null);
             try {
                 const response = await ApiClient.get<ICardLst>(`/card/deck/${deckId}`);
+                console.log("api call sent")
                 const cardData: ICard[] = response.data.cards;
                 setCards(cardData);
             } catch (err) {
@@ -18,7 +21,9 @@ export const useFetchCards = (deckId: string) => {
                 setLoading(false);
             }
         };
+
         fetchCards();
     }, []);
+
     return { cards, loading, error };
 };

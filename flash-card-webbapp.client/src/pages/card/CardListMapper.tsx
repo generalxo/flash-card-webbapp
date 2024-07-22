@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import Card from '../card/Card';
-import { useFetchCards } from '../../components/hooks/useFetchCards';
 import BaseDiv from '../../components/misc/BaseDiv';
+import { useFetchCards } from '../../components/hooks/useFetchCards';
+import React from 'react';
 
 const CardContainer = styled(BaseDiv)`
     gap: 1rem;
@@ -9,11 +10,15 @@ const CardContainer = styled(BaseDiv)`
 `;
 
 interface ICardListMapper {
-    deckId: string
+    deckId: string;
 }
 
 const CardListMapper: React.FC<ICardListMapper> = (props) => {
-    const { cards, loading, error } = useFetchCards(props.deckId.toString());
+    if (props.deckId == '') {
+        return <div>Error DeckId is null</div>
+    }
+
+    const { cards, loading, error } = useFetchCards(props.deckId);
 
     if (loading) {
         return <div>Loading...</div>

@@ -72,8 +72,11 @@ namespace flash_card_webbapp.Server.Controllers
                     return BadRequest();
 
                 var cards = await _cardService.GetCardsByDeckId(deckId);
-                if (cards is null || cards.Count == 0)
+                if (cards is null)
                     return NotFound();
+
+                if (cards.Count == 0)
+                    return Ok("No cards found");
 
                 CardListResponseDto responseDto = new(cards);
                 if(ModelState.IsValid)

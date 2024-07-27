@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import H2 from '../../components/text/H2';
 import ModularBtn from '../../components/button/ModularBtn';
@@ -27,11 +28,14 @@ const Input = styled.input`
 const LoginForm: React.FC = () => {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    const navigate = useNavigate();
 
     const login = async (email: string, password: string) => {
         try {
             const response = await ApiClient.post('/auth/login', { email, password });
-            console.log('Response:', response.data);
+            if (response.status == 200) {
+                navigate('/')
+            }
         } catch (error) {
             // do something with the error later!
             if (axios.isAxiosError(error)) {

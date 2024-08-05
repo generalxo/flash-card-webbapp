@@ -9,9 +9,6 @@ import BaseDiv from '../../components/misc/BaseDiv';
 */
 
 const FormContainer = styled(BaseDiv)`
-    form {
-        
-    }
 `;
 
 const StyledForm = styled.form`
@@ -23,14 +20,54 @@ const StyledForm = styled.form`
     gap: .25rem
 `;
 
-const InputFields = styled.input`
-    width: 27rem;
-`;
-
-const TextArea = styled.textarea`
+const BaseTextArea = styled.textarea`
     width: 27rem;
     padding: .25rem;
+    text-align: center;
+    border-radius: var(--r-m);
+    resize: none;
+    outline: none;
 `;
+
+const QuestionTextArea = styled(BaseTextArea)`
+    min-height: 5rem;
+`;
+
+const AnswerTextArea = styled(BaseTextArea)`
+    min-height: 2rem;
+`;
+
+const OptionTextArea = styled(BaseTextArea)`
+    min-height: 2rem;
+`;
+
+const RadioContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: .5rem;
+`;
+
+const SubmitBtn = styled.button`
+    width: 6rem;
+    height: 2rem;
+    align-self: center;
+    border-radius: var(--r-s);
+    border: none;
+    margin-top: .5rem
+`;
+
+/* Things to think about
+    Do we want to create a btn that toggles options?
+    What strictness mode should be default and what should they be
+    Strictness should have a i icon with info on what the difference is
+    Should we set strictness last in some sort of pop up or similar?
+*/
+
+/* TODO
+    Create a list of the options a user has created that also alows the user to remove and edit them.
+    Create auto resize function for textarea.
+*/
 
 const CardCreator = () => {
 
@@ -40,10 +77,22 @@ const CardCreator = () => {
             <FormContainer>
                 <StyledForm>
                     <label>Question</label>
-                    <TextArea />
+                    <QuestionTextArea placeholder='Enter ur Question'/>
                     <label>Answer</label>
-                    <InputFields type="text" id="answer" />
-                    <button type="submit">Create Card</button>
+                    <AnswerTextArea placeholder='Enter the Answer'/>
+                    <h4>Strictness Mode</h4>
+                    <RadioContainer>
+                        <label>None </label>
+                        <input type="radio" name="strictness" value="none" />
+                        <label>Basic </label>
+                        <input type="radio" name="strictness" value="basic" />
+                        <label>Strict </label>
+                        <input type="radio" name="strictness" value="strict" />
+                        <p>i</p>
+                    </RadioContainer>
+                    <label>Options</label>
+                    <OptionTextArea placeholder='Add an option that can be answererd'/>
+                    <SubmitBtn type="submit">Create Card</SubmitBtn>
                     <input type="hidden" value="deckId" />
                 </StyledForm>
             </FormContainer>

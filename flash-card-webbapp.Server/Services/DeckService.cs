@@ -1,8 +1,6 @@
 ﻿using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Repositories.Repos;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace flash_card_webbapp.Server.Services

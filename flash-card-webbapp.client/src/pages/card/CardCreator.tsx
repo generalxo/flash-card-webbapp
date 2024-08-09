@@ -83,7 +83,7 @@ const CardCreator = () => {
                     <h4>Strictness Mode</h4>
                     <RadioContainer>
                         <label>None </label>
-                        <input type="radio" name="strictness" value="none" />
+                        <input type="radio" name="strictness" value="none" checked={true} />
                         <label>Basic </label>
                         <input type="radio" name="strictness" value="basic" />
                         <label>Strict </label>

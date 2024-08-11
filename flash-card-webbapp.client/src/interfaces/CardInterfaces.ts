@@ -15,6 +15,6 @@ interface ICardLst {
 interface ICardOptForm {
     question: string;
     answer: string;
-    optionString: string;
+    optionArr: string[];
     deckId: string;
 };

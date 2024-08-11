@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import BaseDiv from '../../components/misc/BaseDiv';
 import { useParams } from 'react-router-dom';
 import CardListMapper from './CardListMapper';
-import CardCreator from './CardCreator';
+//import CardCreator from './CardCreator';
+import CardPicker from './CardPicker';
 
 const StyledTitle = styled.h1`
     text-align: center;
@@ -20,8 +21,8 @@ const CardPage = () => {
 
     return (
         <PageContainer>
-            <StyledTitle>My Cards!</StyledTitle>
-            <CardCreator />
+            <StyledTitle>Card Collection</StyledTitle>
+            <CardPicker />
             <CardListMapper deckId={deckId} />
         </PageContainer>
     );

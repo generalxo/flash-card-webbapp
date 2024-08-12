@@ -1,11 +1,12 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import React, { useState } from 'react';
+import InfoIcon from '@mui/icons-material/Info';
 
 const BaseTextArea = styled.textarea`
     width: 27rem;
     padding: .25rem;
     text-align: center;
-    border-radius: var(--r-m);
+    border-radius: var(--r-s);
     resize: none;
     outline: none;
 `;
@@ -35,7 +36,7 @@ const SubmitBtn = styled.button`
     width: 6rem;
     height: 2rem;
     align-self: center;
-    border-radius: var(--r-s);
+    border-radius: var(--r-xs);
     border: none;
     margin-top: 1.5rem
 `;
@@ -60,6 +61,23 @@ const Option = styled.li`
     
 `;
 
+const Label = styled.label`
+    display: flex;
+    flex-direction: row
+    margin: 0;
+    margin-top: .5rem;
+    padding: 0;
+    font-size: 1.5rem;
+    p{
+        font-size: 1.55rem;
+        font-weight: bold;
+    }
+    svg{
+        align-self: center;
+        margin-left: auto;
+    }
+`;
+
 const Ul = styled.ul`
     list-style-type: none;
     padding: 0;
@@ -68,8 +86,7 @@ const Ul = styled.ul`
 
 const OptionCardCreator = () => {
     /*TODO
-        Create a way to create many options that are added to a list that can also be removed with clicking an x
-        Create a way to display all the options
+        Create a list that can be removed with clicking an x
     */
     const [form, setForm] = useState<ICardOptForm>({
         question: '',
@@ -95,23 +112,33 @@ const OptionCardCreator = () => {
         setForm({
             ...form,
             option: '',
-        })
-    }
+        });
+    };
 
+    const questionPlaceholder: string = 'Enter ur Question \nEnter ___ to set ur Blank\nFor more info click the i above';
     return (
         <>
             <Container>
                 <StyledForm>
-                    <label>Question</label>
-                    <QuestionTextArea name='question' value={form.question} onChange={handleChange} placeholder='Enter ur Question' />
-                    <label>Answer</label>
+                    <Label>
+                        <p>Question</p>
+                        <InfoIcon fontSize="inherit" />
+                    </Label>
+                    <QuestionTextArea name='question' value={form.question} onChange={handleChange} placeholder={questionPlaceholder} />
+                    <Label>
+                        <p>Answer</p>
+                        <InfoIcon fontSize="inherit" />
+                    </Label>
                     <AnswerTextArea name='answer' value={form.answer} onChange={handleChange} placeholder='Enter the Answer' />
-                    <label>Options</label>
+                    <Label>
+                        <p>Options</p>
+                        <InfoIcon fontSize="inherit" />
+                    </Label>
                     <OptionTextArea name='option' value={form.option} onChange={handleChange} placeholder='Add a option' />
                     <AddOptionBtn onClick={handleAddOptionClick}>Add Option</AddOptionBtn>
                     <OptionContainer>
                         <Ul>
-                            {form.optionArr.length < 0 ? <></> : form.optionArr.map((opt, index) => (
+                            {form.optionArr.length < 0 ? <></> : form.optionArr.map((opt:string, index: number) => (
                                 <Option key={index}>{opt}</Option>
                             ))}
                         </Ul>

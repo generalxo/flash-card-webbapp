@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import DeckListMapper from './DeckListMapper';
 import CreateDeckForm from '../../components/forms/CreateDeckForm';
 

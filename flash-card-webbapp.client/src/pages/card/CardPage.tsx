@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import BaseDiv from '../../components/misc/BaseDiv';
 import { useParams } from 'react-router-dom';
 import CardListMapper from './CardListMapper';

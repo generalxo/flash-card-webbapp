@@ -1,4 +1,4 @@
-import Styled from 'styled-components';
+import Styled from '@emotion/styled';
 
 const DeckContainer = Styled.div`
     display: flex;

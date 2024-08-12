@@ -1,9 +1,5 @@
-import styled from 'styled-components';
-// import index from '../index.css';
+import styled from '@emotion/styled';
 import NavbarItem from './NavbarItem';
-/* TODO:
-    create to do
-*/ 
 
 const NavigationBar = styled.div`
     display: flex;

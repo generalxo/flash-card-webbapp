@@ -3,7 +3,7 @@ import { useState } from 'react';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import ModularBtn from '../../components/button/ModularBtn';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const StyledBtnContainer = styled.div`
     display: flex;

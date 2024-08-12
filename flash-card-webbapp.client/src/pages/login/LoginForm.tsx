@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import H2 from '../../components/text/H2';
 import ModularBtn from '../../components/button/ModularBtn';
 import ApiClient from '../../components/misc/ApiClient';

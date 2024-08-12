@@ -17,4 +17,5 @@ interface ICardOptForm {
     answer: string;
     optionArr: string[];
     deckId: string;
+    option: string;
 };

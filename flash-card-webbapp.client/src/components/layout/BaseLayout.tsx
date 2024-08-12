@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 //Created Components
 import Navbar from '../navbar/Navbar';
 import Footer from '../footer/Footer';

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import H2 from '../../components/text/H2';
 import SubmitBtn from '../../components/button/ModularBtn';
 

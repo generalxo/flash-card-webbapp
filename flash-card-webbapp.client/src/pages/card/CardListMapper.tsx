@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Card from '../card/Card';
 import BaseDiv from '../../components/misc/BaseDiv';
 import { useFetchCards } from '../../components/hooks/useFetchCards';

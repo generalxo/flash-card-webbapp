@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Deck from './Deck';
 import { useFetchDecks } from '../../components/hooks/useFetchDecks';
 

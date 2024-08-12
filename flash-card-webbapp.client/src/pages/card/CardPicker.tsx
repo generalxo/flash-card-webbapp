@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import OptionCardCreator from './OptionCardForm';
 import CardCreator from './CardCreator';
 import BaseDiv from './../../components/misc/BaseDiv';

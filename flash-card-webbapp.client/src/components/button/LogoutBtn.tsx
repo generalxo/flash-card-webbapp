@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import ApiClient from '../misc/ApiClient';
 
 const StyledButton = styled.button`

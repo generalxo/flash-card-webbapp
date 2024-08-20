@@ -1,14 +1,17 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import InfoIcon from '@mui/icons-material/Info';
+import FaX from '@mui/icons-material/Close';
 
 const BaseTextArea = styled.textarea`
-    width: 27rem;
+    width: 35rem;
     padding: .25rem;
     text-align: center;
     border-radius: var(--r-s);
     resize: none;
     outline: none;
+    background: #f9f9f9;
+    font-size: 1rem;
 `;
 
 const QuestionTextArea = styled(BaseTextArea)`
@@ -44,21 +47,42 @@ const SubmitBtn = styled.button`
 const Container = styled.div`
     display: flex;
     flex-direction: column;
+    width: 100%;
 `;
 
 const OptionContainer = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     min-height: 5rem;
-    background:red;
+    margin-top: 1rem;
+    gap: .25rem;
+    font-size: 1.5rem;
+    padding: .25rem;
+    border-style: solid;
+    border-color: #f9f9f9;
+    border-width: 1px;
+    border-radius: var(--r-s);
+    background: #f9f9f9;
+    min-height: 2.1rem;
+    height: auto;
+    width: 35rem;
 `;
 
-const AddOptionBtn = styled.button`
-
+const AddOptionBtn = styled(SubmitBtn)`
+    margin: 0;
+    margin-top: .25rem;
 `;
 
-const Option = styled.li`
-    
+const Option = styled.div`
+    display: flex;
+    flex-direction: row;
+    margin-left: .25rem;
+    p{
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        color: black;
+    }
 `;
 
 const Label = styled.label`
@@ -78,10 +102,15 @@ const Label = styled.label`
     }
 `;
 
-const Ul = styled.ul`
-    list-style-type: none;
-    padding: 0;
+const RemoveIcon = styled(FaX)`
     margin: 0;
+    margin-left: auto;
+    padding: 0;
+    cursor: pointer;
+    background: red;
+    border-radius: var(--r-xs);
+    color: black;
+    align-self: center;
 `;
 
 const OptionCardCreator = () => {
@@ -96,7 +125,6 @@ const OptionCardCreator = () => {
         option: ''
     });
 
-    // Change this to be on click of add option or create card.
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         e.preventDefault();
         const { name, value } = e.target;
@@ -112,6 +140,14 @@ const OptionCardCreator = () => {
         setForm({
             ...form,
             option: '',
+        });
+    };
+
+    const handleRemoveOptionClick = (index: number) => {
+        const updatedOptions = form.optionArr.filter((_, i) => i !== index);
+        setForm({
+            ...form,
+            optionArr: updatedOptions,
         });
     };
 
@@ -136,18 +172,20 @@ const OptionCardCreator = () => {
                     </Label>
                     <OptionTextArea name='option' value={form.option} onChange={handleChange} placeholder='Add a option' />
                     <AddOptionBtn onClick={handleAddOptionClick}>Add Option</AddOptionBtn>
-                    <OptionContainer>
-                        <Ul>
-                            {form.optionArr.length < 0 ? <></> : form.optionArr.map((opt:string, index: number) => (
-                                <Option key={index}>{opt}</Option>
+                    {form.optionArr.length > 0 && (
+                        <OptionContainer>
+                            {form.optionArr.map((text, index) => (
+                                <Option key={index}>
+                                    <p>{text}</p>
+                                    <RemoveIcon onClick={() => handleRemoveOptionClick(index)} fontSize='inherit' />
+                                </Option>
                             ))}
-                        </Ul>
-                    </OptionContainer>
+                        </OptionContainer>
+                    )}
                     <SubmitBtn type='submit'>Create Card</SubmitBtn>
                     <input type='hidden' value={form.deckId} />
                     <input type='hidden' value='none' />
                 </StyledForm>
-                
             </Container>
         </>
     )

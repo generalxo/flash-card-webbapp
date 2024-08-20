@@ -5,7 +5,7 @@ import CardCreator from './CardCreator';
 import BaseDiv from './../../components/misc/BaseDiv';
 
 const CardPickerContainer = styled(BaseDiv)`
-    
+    width: 100%;
 `;
 
 const Button = styled.button`

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
-import InfoIcon from '@mui/icons-material/Info';
 import FaX from '@mui/icons-material/Close';
+import TextFieldLabel from './TextFieldLabel';
 
 const BaseTextArea = styled.textarea`
     width: 35rem;
@@ -85,23 +85,6 @@ const Option = styled.div`
     }
 `;
 
-const Label = styled.label`
-    display: flex;
-    flex-direction: row
-    margin: 0;
-    margin-top: .5rem;
-    padding: 0;
-    font-size: 1.5rem;
-    p{
-        font-size: 1.55rem;
-        font-weight: bold;
-    }
-    svg{
-        align-self: center;
-        margin-left: auto;
-    }
-`;
-
 const RemoveIcon = styled(FaX)`
     margin: 0;
     margin-left: auto;
@@ -114,9 +97,17 @@ const RemoveIcon = styled(FaX)`
 `;
 
 const OptionCardCreator = () => {
-    /*TODO
-        Create a list that can be removed with clicking an x
+    /* To Do
+        - Get deckid from the url
+        - Create api call to create a card
+        - Add validation to the form
+        - Maybe move some of the components to separate files so they can be reused. 
+        Need to think about this and how this would be done.
+            - TextArea should resize with the content
+            - SubmitBtn should be pritty straight forward to do.
+            - OptionContainer should maybe stay the same as it is now.
     */
+
     const [form, setForm] = useState<ICardOptForm>({
         question: '',
         answer: '',
@@ -144,7 +135,8 @@ const OptionCardCreator = () => {
     };
 
     const handleRemoveOptionClick = (index: number) => {
-        const updatedOptions = form.optionArr.filter((_, i) => i !== index);
+        // Remove the option at the index, _ is the value and i is the index
+        const updatedOptions: string[] = form.optionArr.filter((_, i) => i !== index);
         setForm({
             ...form,
             optionArr: updatedOptions,
@@ -152,24 +144,17 @@ const OptionCardCreator = () => {
     };
 
     const questionPlaceholder: string = 'Enter ur Question \nEnter ___ to set ur Blank\nFor more info click the i above';
+    const questionInfoText: string = 'Enter the question for the card. If you want to have a blank in the question enter 3 undersocres like this ___ where you want the blank to be. By default the blank will be at end.';
+    const optionInfoText: string = 'Multiple choices can be added to the card. The answer will automatically be added to the options. At least 1 option needs to be added but 3 are recomended so there are 4 options to chose from.';
     return (
         <>
             <Container>
                 <StyledForm>
-                    <Label>
-                        <p>Question</p>
-                        <InfoIcon fontSize="inherit" />
-                    </Label>
+                    <TextFieldLabel labelText='Question' infoText={questionInfoText}/>
                     <QuestionTextArea name='question' value={form.question} onChange={handleChange} placeholder={questionPlaceholder} />
-                    <Label>
-                        <p>Answer</p>
-                        <InfoIcon fontSize="inherit" />
-                    </Label>
+                    <TextFieldLabel labelText='Answer' />
                     <AnswerTextArea name='answer' value={form.answer} onChange={handleChange} placeholder='Enter the Answer' />
-                    <Label>
-                        <p>Options</p>
-                        <InfoIcon fontSize="inherit" />
-                    </Label>
+                    <TextFieldLabel labelText='Options' infoText={optionInfoText}/>
                     <OptionTextArea name='option' value={form.option} onChange={handleChange} placeholder='Add a option' />
                     <AddOptionBtn onClick={handleAddOptionClick}>Add Option</AddOptionBtn>
                     {form.optionArr.length > 0 && (

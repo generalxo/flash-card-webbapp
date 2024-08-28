@@ -2,29 +2,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import FaX from '@mui/icons-material/Close';
 import TextFieldLabel from './TextFieldLabel';
-
-const BaseTextArea = styled.textarea`
-    width: 35rem;
-    padding: .25rem;
-    text-align: center;
-    border-radius: var(--r-s);
-    resize: none;
-    outline: none;
-    background: #f9f9f9;
-    font-size: 1rem;
-`;
-
-const QuestionTextArea = styled(BaseTextArea)`
-    min-height: 5rem;
-`;
-
-const AnswerTextArea = styled(BaseTextArea)`
-    min-height: 2rem;
-`;
-
-const OptionTextArea = styled(BaseTextArea)`
-    min-height: 2rem;
-`;
+import ResizableTextArea from './ResizableTextarea';
 
 const StyledForm = styled.form`
     display: flex;
@@ -101,11 +79,6 @@ const OptionCardCreator = () => {
         - Get deckid from the url
         - Create api call to create a card
         - Add validation to the form
-        - Maybe move some of the components to separate files so they can be reused. 
-        Need to think about this and how this would be done.
-            - TextArea should resize with the content
-            - SubmitBtn should be pritty straight forward to do.
-            - OptionContainer should maybe stay the same as it is now.
     */
 
     const [form, setForm] = useState<ICardOptForm>({
@@ -146,16 +119,17 @@ const OptionCardCreator = () => {
     const questionPlaceholder: string = 'Enter ur Question \nEnter ___ to set ur Blank\nFor more info click the i above';
     const questionInfoText: string = 'Enter the question for the card. If you want to have a blank in the question enter 3 undersocres like this ___ where you want the blank to be. By default the blank will be at end.';
     const optionInfoText: string = 'Multiple choices can be added to the card. The answer will automatically be added to the options. At least 1 option needs to be added but 3 are recomended so there are 4 options to chose from.';
+    
     return (
         <>
             <Container>
                 <StyledForm>
                     <TextFieldLabel labelText='Question' infoText={questionInfoText}/>
-                    <QuestionTextArea name='question' value={form.question} onChange={handleChange} placeholder={questionPlaceholder} />
+                    <ResizableTextArea name='question'  value={form.question} onChange={handleChange} placeholder={questionPlaceholder} />
                     <TextFieldLabel labelText='Answer' />
-                    <AnswerTextArea name='answer' value={form.answer} onChange={handleChange} placeholder='Enter the Answer' />
+                    <ResizableTextArea name='answer'  value={form.answer} onChange={handleChange} placeholder='Enter the Answer' />
                     <TextFieldLabel labelText='Options' infoText={optionInfoText}/>
-                    <OptionTextArea name='option' value={form.option} onChange={handleChange} placeholder='Add a option' />
+                    <ResizableTextArea name='option'  value={form.option} onChange={handleChange} placeholder='Add a option' />
                     <AddOptionBtn onClick={handleAddOptionClick}>Add Option</AddOptionBtn>
                     {form.optionArr.length > 0 && (
                         <OptionContainer>

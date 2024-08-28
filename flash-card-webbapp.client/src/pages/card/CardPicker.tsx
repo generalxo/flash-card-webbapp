@@ -4,6 +4,11 @@ import OptionCardCreator from './OptionCardForm';
 import CardCreator from './CardCreator';
 import BaseDiv from './../../components/misc/BaseDiv';
 
+/* TODO
+    Create a menu to select between the two card creators
+*/ 
+
+
 const CardPickerContainer = styled(BaseDiv)`
     width: 100%;
 `;
@@ -20,7 +25,7 @@ const CardPicker = () => {
             setBool(true);
         } else {
             setBool(false);
-        };
+        }
     };
 
 

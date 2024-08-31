@@ -19,3 +19,10 @@ interface ICardOptForm {
     deckId: string;
     option: string;
 };
+
+interface ICardStrForm {
+    question: string;
+    answer: string;
+    deckId: string;
+    strictness: string;
+};

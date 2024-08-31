@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import OptionCardCreator from './OptionCardForm';
-import CardCreator from './CardCreator';
+//import CardCreator from './CardCreator';
+import StringCardForm from './StringCardForm';
 import BaseDiv from './../../components/misc/BaseDiv';
 
 /* TODO
@@ -32,7 +33,7 @@ const CardPicker = () => {
     return (
         <>
             <CardPickerContainer>
-                {bool ? <CardCreator /> : <OptionCardCreator /> }
+                {bool ? <StringCardForm /> : <OptionCardCreator /> }
                 <Button onClick={handleClick}>Switch</Button>
             </CardPickerContainer>
         </>

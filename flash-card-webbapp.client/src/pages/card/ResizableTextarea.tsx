@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import {useRef, useEffect, forwardRef} from "react";
+import {useRef, useEffect, forwardRef, useImperativeHandle, memo, useCallback} from "react";
 
 const TextArea = styled.textarea`
     width: 35rem;
@@ -10,41 +10,39 @@ const TextArea = styled.textarea`
     outline: none;
     background: #f9f9f9;
     font-size: 1rem;
-	min-height: 1rem;
+	min-height: 1.5rem;
 `;
 
-const ResizableTextArea = forwardRef<HTMLTextAreaElement,React.TextareaHTMLAttributes<HTMLTextAreaElement>>(({ onChange, value, ...props }, ref) => {
+interface IResizableTextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement>{};
+
+const ResizableTextArea = forwardRef<HTMLTextAreaElement, IResizableTextAreaProps>(({ onChange, value, ...props }, ref) => {
+	
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
+	useImperativeHandle(ref, () => textareaRef.current!);
 
-  	useEffect(() => {
-		if (typeof ref === "function") {
-			ref(textareaRef.current);
-		} else if (ref) {
-			(ref as React.MutableRefObject<HTMLTextAreaElement | null>).current = textareaRef.current;
-		}
-  	}, [ref]);
-
-  	const handleAutoResize = () => {
+	const handleAutoResize = useCallback(() => {
 		if (textareaRef.current) {
 			textareaRef.current.style.height = "auto";
 			textareaRef.current.style.height = `${textareaRef.current.scrollHeight + 3}px`;
-		}
-  	};
+		};
+	}, [value]);
 
   	useEffect(() => {
     	handleAutoResize();
-  	}, [value]);
+  	}, [handleAutoResize, value]);
 
-  	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    	handleAutoResize();
-    	if (onChange) {
-      		onChange(e);
-    	}
-  	};
+	const handleChange = useCallback(
+		(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+			handleAutoResize();
+			if (onChange) {
+				onChange(e);
+			};
+		}, [handleAutoResize, onChange]
+	);
 
   	return (
     	<TextArea value={value} ref={textareaRef} onChange={handleChange} {...props} />
 	);
 });
 
-export default ResizableTextArea;
+export default memo(ResizableTextArea);

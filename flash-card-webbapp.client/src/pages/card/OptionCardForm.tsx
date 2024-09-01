@@ -6,6 +6,15 @@ import { Button, Stack, IconButton } from '@mui/material';
 import BaseDiv from '../../components/misc/BaseDiv';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+/* To Do
+    - Get deckid from the url
+    - Create api call to create a card
+    - Add validation to the form
+    Things to consider
+    - Adding a context
+    - moving the form part to a separate component
+*/
+
 const StyledForm = styled.form`
     display: flex;
     flex-direction: column;
@@ -56,12 +65,6 @@ const Option = styled.div`
 `;
 
 const OptionCardCreator = () => {
-    /* To Do
-        - Get deckid from the url
-        - Create api call to create a card
-        - Add validation to the form
-    */
-
     const [form, setForm] = useState<ICardOptForm>({
         question: '',
         answer: '',

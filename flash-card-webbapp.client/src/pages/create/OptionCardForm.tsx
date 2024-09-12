@@ -143,7 +143,6 @@ const OptionCardCreator = () => {
                         </Stack>
                     </CenterContainer>
                     <input type='hidden' value={form.deckId} />
-                    <input type='hidden' value='none' />
                 </StyledForm>
             </Container>
         </>

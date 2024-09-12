@@ -11,9 +11,9 @@
   --bg-s: #474747;
 
   /* Text Colors */
-  --tc-p: #e2e2e2;
-  --tc-s: #a8a8a8;
-  --tc-i: #0f0f0f;
+  --tc-p: #c2c2c2;
+  --tc-s: #8a8a8a;
+  --tc-i: #070707;
 
   /* Special Colors */
   --sc-d: #ff6347;
@@ -53,12 +53,12 @@ html {
   font-family: 'Roboto Condensed', sans-serif;
   color: var(--tc-p);
   font-weight: var(--fw-400);
-  background-color: var(--bg-p);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: var(--fw-600);
   text-align: center;
+  color: var(--tc-p);
 }
 
 h1 {

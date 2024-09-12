@@ -87,15 +87,6 @@ namespace flash_card_webbapp.Server
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            //.AddCookie(options =>
-            //{
-            //    options.Cookie.Name = "token";
-            //    options.Cookie.HttpOnly = true;
-            //    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Ensures the cookie is always sent over HTTPS
-            //    options.Cookie.SameSite = SameSiteMode.None; // Strict -> Mitigates CSRF attacks.|-> Change to it when not on development
-            //    options.SlidingExpiration = true;
-            //    options.AccessDeniedPath = "/login/";
-            //})
             .AddJwtBearer(options =>
             {
                 //options.SaveToken = true;
@@ -110,14 +101,6 @@ namespace flash_card_webbapp.Server
                     ValidAudience = builder.Configuration["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
                 };
-                //options.Events = new JwtBearerEvents
-                //{
-                //    OnMessageReceived = context =>
-                //    {
-                //        context.Token = context.Request.Cookies["token"];
-                //        return Task.CompletedTask;
-                //    }
-                //};
             });
 
 

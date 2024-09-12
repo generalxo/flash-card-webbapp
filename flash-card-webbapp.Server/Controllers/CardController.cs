@@ -74,10 +74,7 @@ namespace flash_card_webbapp.Server.Controllers
                 // TODO When deck is created there are no cards in it. Change code to not throw error if list is empty
                 // Currently returning null when no cards in deck
                 var cards = await _cardService.GetCardsByDeckId(deckId);
-                if (cards is null)
-                    return NotFound();
-
-                if (cards.Count == 0)
+                if (cards == null || cards.Count == 0)
                     return Ok("No cards found");
 
                 CardListResponseDto responseDto = new(cards);

@@ -51,13 +51,14 @@ namespace flash_card_webbapp.Server.Services
                     newCard.Answer = requestModel.Answer;
                     newCard.BlankPos = requestModel.BlankPos;
                     newCard.OptionString = requestModel.OptionString;
+                    newCard.Strictness = requestModel.Strictness;
                     newCard.DeckId = requestModel.DeckId;
 
                     await _cardRepository.CreateAsync(newCard);
                     deck.CardCount++;
                     _deckRepository.Update(deck);
 
-                    var changes = await _cardRepository.SaveAsync();
+                    int changes = await _cardRepository.SaveAsync();
                     if(changes >= 2)
                         return false;
 
@@ -91,7 +92,7 @@ namespace flash_card_webbapp.Server.Services
                 return null;
 
             var cards = query.ToList();
-            if (!cards.Any())
+            if (cards.Count == 0)
                 return null;
 
             return cards;

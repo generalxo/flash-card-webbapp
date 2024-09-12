@@ -10,6 +10,7 @@ const NavigationBar = styled.div`
     padding: .6rem 0;
     margin-bottom: 10px;
     height: 3rem;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.349);
 
     ul {
         display: flex;

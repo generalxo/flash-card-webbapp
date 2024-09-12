@@ -6,6 +6,10 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace flash_card_webbapp.Server.Models.DbModels
 {
+    /* TO DO
+     * Shareing with others
+     *  - Add a public or private prop to the deck for shareing with others
+     */
     public class DeckModel
     {
         // Primary Key

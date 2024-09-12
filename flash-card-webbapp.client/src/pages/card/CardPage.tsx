@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import CardListMapper from './CardListMapper';
 //import CardCreator from './CardCreator';
 import CardPicker from './CardPicker';
+import { Button, Stack } from '@mui/material';
 
 const StyledTitle = styled.h1`
     text-align: center;
@@ -22,6 +23,10 @@ const CardPage = () => {
     return (
         <PageContainer>
             <StyledTitle>Card Collection</StyledTitle>
+            <Stack direction='row' spacing={2} justifyContent='center'>
+                <Button variant='contained' color='primary' href={`/decks`}>Back to Decks</Button>
+                <Button variant='contained' color='primary' href={`/create/${deckId}`}>Create Card</Button>
+            </Stack>
             <CardPicker />
             <CardListMapper deckId={deckId} />
         </PageContainer>

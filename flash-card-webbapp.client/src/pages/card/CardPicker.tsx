@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
-import OptionCardCreator from './OptionCardForm';
+import OptionCardCreator from '../create/OptionCardForm';
 //import CardCreator from './CardCreator';
-import StringCardForm from './StringCardForm';
+import StringCardForm from './../create/StringCardForm';
 import BaseDiv from './../../components/misc/BaseDiv';
 
 /* TODO

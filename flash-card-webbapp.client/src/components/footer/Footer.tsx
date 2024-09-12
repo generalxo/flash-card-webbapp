@@ -5,6 +5,7 @@ const FooterContainer = styled.footer`
     padding: 20px;
     text-align: center;
     min-height: 5rem;
+    box-shadow: 0 -6px 8px rgba(0, 0, 0, 0.349);
 `;
 
 const FooterText = styled.p`

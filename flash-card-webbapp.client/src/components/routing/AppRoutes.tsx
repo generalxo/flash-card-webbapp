@@ -2,8 +2,11 @@
 // Created Imports
 import HomePage from '../../pages/HomePage';
 import CardPage from '../../pages/card/CardPage';
+import CreatePage from '../../pages/create/CreatePage';
 import DecksPage from '../../pages/deck/DeckPage';
 import LoginPage from '../../pages/login/LoginPage';
+import StringCardForm from '../../pages/create/StringCardForm';
+import OptionCardForm from '../../pages/create/OptionCardForm';
 
 const AppRoutes = [
     {
@@ -22,6 +25,18 @@ const AppRoutes = [
     {
         path: '/cards/:id',
         Element: <CardPage />,
+    },
+    {
+        path: '/create/:id',
+        Element: <CreatePage />,
+    },
+    {
+        path: '/create/text/:id',
+        Element: <StringCardForm />,
+    },
+    {
+        path: '/create/option/:id',
+        Element: <OptionCardForm />,
     }
 ];
 

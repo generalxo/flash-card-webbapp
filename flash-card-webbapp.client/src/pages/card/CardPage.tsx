@@ -1,9 +1,7 @@
 import styled from '@emotion/styled';
 import BaseDiv from '../../components/misc/BaseDiv';
 import { useParams } from 'react-router-dom';
-import CardListMapper from './CardListMapper';
 //import CardCreator from './CardCreator';
-import CardPicker from './CardPicker';
 import { Button, Stack } from '@mui/material';
 
 const StyledTitle = styled.h1`
@@ -27,8 +25,6 @@ const CardPage = () => {
                 <Button variant='contained' color='primary' href={`/decks`}>Back to Decks</Button>
                 <Button variant='contained' color='primary' href={`/create/${deckId}`}>Create Card</Button>
             </Stack>
-            <CardPicker />
-            <CardListMapper deckId={deckId} />
         </PageContainer>
     );
 };

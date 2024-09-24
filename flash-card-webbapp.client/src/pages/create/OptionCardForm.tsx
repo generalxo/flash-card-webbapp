@@ -5,14 +5,12 @@ import ResizableTextArea from './ResizableTextarea';
 import { Button, Stack, IconButton } from '@mui/material';
 import BaseDiv from '../../components/misc/BaseDiv';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ApiClient from '../../components/misc/ApiClient';
+import { useParams } from 'react-router-dom';
 
 /* To Do
-    - Get deckid from the url
-    - Create api call to create a card
     - Add validation to the form
     Things to consider
-    - Adding a context
-    - moving the form part to a separate component
 */
 
 const StyledForm = styled.form`
@@ -21,20 +19,27 @@ const StyledForm = styled.form`
     width: 100%;
     margin: 0 auto;
     text-align: center;
-    gap: .25rem
+    gap: .25rem;
 `;
 
 const Container = styled(BaseDiv)``;
-const CenterContainer = styled(BaseDiv)``;
+const StackWrapper = styled.div`
+    margin: 0;
+    margin-top: 2rem;
+`;
 const OptionBtnWrapper = styled.div`
     display: flex;
     justify-content: center;
     padding-top: .5rem;
 `;
 
+const BtnWrapper = styled(BaseDiv)``;
+
 const DeleteIconBtn = styled(IconButton)`
     margin-left: auto;
 `;
+
+const DeleteIconWrapper = styled(BaseDiv)``;
 
 const OptionContainer = styled.div`
     display: flex;
@@ -48,28 +53,37 @@ const OptionContainer = styled.div`
     border-color: #f9f9f9;
     border-width: 1px;
     border-radius: var(--r-s);
-    min-height: 2.1rem;
+    min-height: 3rem;
     height: auto;
     width: 35rem;
+    background: #f9f9f9;
 `;
 
 const Option = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 2.5rem;
+    gap: .25rem;
+`;
+
+const OptionText = styled.p`
     display: flex;
-    flex-direction: row;
-    margin-left: .25rem;
-    p{
-        margin: 0;
-        padding: 0;
-        color: black;
-    }
+    margin: 0;
+    padding: 0;
+    color: black;
+    line-height: 1.1rem;
+    font-size: 1.1rem;
+    align-self: center;
+    justify-self: flex-start;
+    text-align: left;
 `;
 
 const OptionCardCreator = () => {
+    const { id } = useParams();
     const [form, setForm] = useState<ICardOptForm>({
         question: '',
         answer: '',
         optionArr: [],
-        deckId: '',
+        deckId: id?.toString() || '',
         option: ''
     });
 
@@ -105,6 +119,28 @@ const OptionCardCreator = () => {
         });
     };
 
+        const handleSubmitForm = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        
+        const data: ICardForm = {
+            question: form.question,
+            answer: form.answer,
+            optionString: form.optionArr.toString(),
+            strictness: 0,
+            deckId: '484898a0-b250-4c89-b4f7-4fe40119bb12',
+        };
+        console.log(data);
+        const postData = async () => {
+            try {
+                const response = await ApiClient.post('/card/create', data);
+                console.log(response);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        postData();
+    };
+
     const optionRef = useRef<HTMLTextAreaElement>(null);
 
     const questionPlaceholder: string = 'Enter ur Question \nEnter ___ to set ur Blank\nFor more info click the i above';
@@ -124,29 +160,34 @@ const OptionCardCreator = () => {
                     <OptionBtnWrapper>
                         <Button onClick={handleAddOptionClick} variant='contained'>Add Option</Button>
                     </OptionBtnWrapper>
-                    {form.optionArr.length > 0 && (
-                        <OptionContainer>
-                            {form.optionArr.map((text, index) => (
-                                <Option key={index}>
-                                    <p>{text}</p>
+                    <TextFieldLabel labelText='Card Options' />
+                    <OptionContainer>
+                        {form.optionArr.map((text, index) => (
+                            <Option key={index}>
+                                <OptionText>{text}</OptionText>
+                                <DeleteIconWrapper>
                                     <DeleteIconBtn onClick={() => handleRemoveOptionClick(index)}>
                                         <DeleteIcon />
                                     </DeleteIconBtn>
-                                </Option>
-                            ))}
-                        </OptionContainer>
-                    )}
-                    <CenterContainer>
+                                </DeleteIconWrapper>
+                            </Option>
+                        ))}
+                    </OptionContainer>
+                    <StackWrapper>
                         <Stack direction="column" spacing={2}>
-                            <Button variant='contained' color='success'>Create Card</Button>
-                            <Button variant='contained' color='error'>Cancel</Button>
+                            <BtnWrapper>
+                                <Button variant='contained' color='success' onClick={handleSubmitForm}>Create Card</Button>
+                            </BtnWrapper>
+                            <BtnWrapper>
+                                <Button variant='contained' color='error'>Cancel</Button>
+                            </BtnWrapper>
                         </Stack>
-                    </CenterContainer>
+                    </StackWrapper>
                     <input type='hidden' value={form.deckId} />
                 </StyledForm>
             </Container>
         </>
-    )
-}
+    );
+};
 
 export default OptionCardCreator;

@@ -9,7 +9,7 @@ namespace flash_card_webbapp.Server.Controllers
 {
     [Route("api/card")]
     [ApiController]
-    [Authorize(Roles = "User")]
+    //[Authorize(Roles = "User")]
     public class CardController : ControllerBase
     {
         private readonly CardService _cardService;

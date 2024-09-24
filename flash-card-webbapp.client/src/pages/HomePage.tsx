@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 //Created Components
 import BaseDiv from '../components/misc/BaseDiv';
-import { Button, Stack } from '@mui/material';
+import { Button } from '@mui/material';
 
 /* Notes:
     css variables are used in the styled components.
@@ -39,17 +39,7 @@ const AccountContainer = styled.div`
     gap: 1rem;
 `;
 
-const SignUpButton = styled(Button)`
-    background-color: #181822;
-    &:hover {
-        background-color: #25243d;
-        color: #439bff;
-    }
-`;
 
-const LogInButton = styled(Button)`
-
-`;
 
 
 const HomePage = () => {
@@ -59,8 +49,8 @@ const HomePage = () => {
                 <StyledHeroText>Flash Cards</StyledHeroText>
                 <HomePageSubtitle>Start creating & learning with your own cards</HomePageSubtitle>
                 <AccountContainer>
-                    <LogInButton>Log In</LogInButton>
-                    <SignUpButton>Sign Up</SignUpButton>
+                    <Button variant='contained' href='/login'>Log In</Button>
+                    <Button variant='contained'>Sign Up</Button>
                 </AccountContainer>
             </HomeWrapper>
             

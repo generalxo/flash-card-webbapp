@@ -8,6 +8,14 @@ interface ICard {
     deckId: string;
 }
 
+interface ICardForm {
+    question: string;
+    answer: string;
+    optionString?: string;
+    strictness: number;
+    deckId: string;
+}
+
 interface ICardLst {
     cards: ICard[];
 }

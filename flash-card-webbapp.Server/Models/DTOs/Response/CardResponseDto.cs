@@ -18,7 +18,6 @@ namespace flash_card_webbapp.Server.Models.DTOs.Response
         [Required]
         public int BlankPos { get; set; }
 
-
         public CardResponseDto(CardModel cardModel)
         {
             Question = cardModel.Question;
@@ -26,20 +25,6 @@ namespace flash_card_webbapp.Server.Models.DTOs.Response
             OptionString = cardModel.OptionString;
             Streak = cardModel.Streak;
             BlankPos = cardModel.BlankPos;
-        }
-    }
-
-    public class CardListResponseDto
-    {
-        [Required]
-        public List<CardResponseDto>? Cards { get; set; }
-
-        public CardListResponseDto(List<CardModel> cards)
-        {
-            new CardListResponseDto(cards)
-            {
-                Cards = cards.Select(card => new CardResponseDto(card)).ToList()
-            };
         }
     }
 }

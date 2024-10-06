@@ -1,4 +1,5 @@
-﻿using flash_card_webbapp.Server.Models.DTOs.Request;
+﻿using flash_card_webbapp.Server.Models.DbModels;
+using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Models.DTOs.Response;
 using flash_card_webbapp.Server.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -71,15 +72,20 @@ namespace flash_card_webbapp.Server.Controllers
                 if (isDeckOwner is false)
                     return BadRequest();
 
-                // TODO When deck is created there are no cards in it. Change code to not throw error if list is empty
-                // Currently returning null when no cards in deck
-                var cards = await _cardService.GetCardsByDeckId(deckId);
-                if (cards == null || cards.Count == 0)
+                List<CardModel>? cardlst = await _cardService.GetCardsByDeckId(deckId);
+                if (cardlst == null || cardlst.Count == 0)
                     return Ok("No cards found");
 
-                CardListResponseDto responseDto = new(cards);
-                if(ModelState.IsValid)
-                    return Ok(responseDto);
+                var cardDto = _cardService.CardLstToDto(cardlst);
+                if (cardDto is not null)
+                {
+                    var response = new { Cards = cardDto };
+                    return Ok(response);
+                }
+
+                //CardListResponseDto responseDto = new(cards);
+                //if(responseDto is not null)
+                //    return Ok(responseDto);
             }
             catch (Exception ex)
             {

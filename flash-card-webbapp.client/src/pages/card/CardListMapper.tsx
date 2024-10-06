@@ -1,46 +1,58 @@
 import styled from '@emotion/styled';
-import Card from '../card/Card';
-import BaseDiv from '../../components/misc/BaseDiv';
-import { useFetchCards } from '../../components/hooks/useFetchCards';
 import React from 'react';
 
-const CardContainer = styled(BaseDiv)`
+const CardContainer = styled.div`
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
     margin-top: 1rem;
 `;
 
-interface ICardListMapper {
-    deckId: string;
+interface IMapper {
+    question: string;
+    answer: string;
+    optionArr: string[];
 }
 
-const CardListMapper: React.FC<ICardListMapper> = (props) => {
-    if (props.deckId == '') {
-        return <div>Error DeckId is null</div>
-    }
+const QuestionText = styled.p`
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+`;
 
-    const { cards, loading, error } = useFetchCards(props.deckId);
+const CardLstToMapper = (cardlst: ICardLst): IMapper[] => {
+    return cardlst.cards.map(card => ({
+        question: card.question,
+        answer: card.answer,
+        optionArr: card.optionString ? card.optionString.split(',') : []
+    }));
+}
 
-    if (loading) {
-        return <div>Loading...</div>
-    }
+const CardListMapper: React.FC<ICardLst> = (props) => {
+    console.log("props");
+    console.log(props);
 
-    if (error) {
-        return <div>{error}</div>
-    }
+    const cardList = CardLstToMapper(props);
+    console.log("cardList");
+    console.log(cardList);
 
-    if (cards.length == 0 || cards == null) {
-        return <div>Create your first deck !</div>
-    }
-
-    return (
-        <>
-            <CardContainer>
-                {cards.map((card, index) => (
-                    <Card key={index} id={card.id} question={card.question} answer={card.answer} blankPos={card.blankPos} deckId={card.deckId} streak={card.streak} />
-                ))}
-            </CardContainer>
-        </>
-    );
-};
+    return(
+        <CardContainer>
+            <>
+                {cardList.map((card, index) => {
+                    return (
+                        <div key={index}>
+                            <QuestionText>{card.question}</QuestionText>
+                            <p>{card.answer}</p>
+                            {card.optionArr.map((option, index) => {
+                                return <p key={index}>{option}</p>
+                            })}
+                        </div>
+                    )
+                })}
+            </>
+        </CardContainer>
+    )
+}
 
 export default CardListMapper;

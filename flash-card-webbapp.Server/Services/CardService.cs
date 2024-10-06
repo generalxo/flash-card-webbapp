@@ -1,5 +1,6 @@
 ﻿using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Models.DTOs.Request;
+using flash_card_webbapp.Server.Models.DTOs.Response;
 using flash_card_webbapp.Server.Repositories.Repos;
 using System.Diagnostics;
 
@@ -98,6 +99,11 @@ namespace flash_card_webbapp.Server.Services
                 return null;
 
             return cards;
+        }
+
+        public List<CardResponseDto> CardLstToDto(List<CardModel> cards)
+        {
+            return cards.Select(card => new CardResponseDto(card)).ToList();
         }
     }
 }

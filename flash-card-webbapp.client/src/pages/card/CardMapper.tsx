@@ -23,35 +23,26 @@ interface ICardMapper {
     deckId: string;
 }
 
-const CardMapper: React.FC<ICardMapper> = (props) => {
+const CardMapper: React.FC<ICardMapper> = ({ deckId }) => {
+    const { cards, loading, error } = useFetchCards(deckId);
 
-    if (props.deckId == '') {
+    if (!deckId) {
         return <div>DeckId Error</div>
-    }
-
-    const { cards, loading, error } = useFetchCards(props.deckId);
-
-    if (loading) {
+    } else if (error) {
+        return <div>{error}</div>
+    } else if (loading) {
         return (
             <SpinnerContainer>
-                <CircularProgress size='5rem'/>
+                <CircularProgress size='5rem' />
             </SpinnerContainer>
         )
-    }
-
-    if (error) {
-        return <div>{error}</div>
-    }
-
-    if (cards.length == 0 || cards == null) {
+    } else if (cards == undefined || cards == null || cards.length == 0) {
         return <div>Create your first deck !</div>
-    }
-
-    return(
+    } else return (
         <CardContainer>
-            <CardListMapper cards={cards}/>
+            <CardListMapper cards={cards} />
         </CardContainer>
-    )
+    );
 }
 
 export default CardMapper;

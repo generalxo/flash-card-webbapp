@@ -1,5 +1,4 @@
 using flash_card_webbapp.Server.Data;
-using flash_card_webbapp.Server.Middleware;
 using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Repositories.Interfaces;
 using flash_card_webbapp.Server.Repositories.Repos;
@@ -23,13 +22,14 @@ namespace flash_card_webbapp.Server
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
 
+            // Swagger
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "FlashCards", Version = "v1" });
                 options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
-                    In = ParameterLocation.Cookie,
+                    In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = JwtBearerDefaults.AuthenticationScheme
                 });
@@ -44,23 +44,25 @@ namespace flash_card_webbapp.Server
                                 Type = ReferenceType.SecurityScheme,
                                 Id = JwtBearerDefaults.AuthenticationScheme
                             },
-                            Scheme = "ApiKey",
+                            Scheme = "Oauth2",
                             Name = JwtBearerDefaults.AuthenticationScheme,
-                            In = ParameterLocation.Cookie
+                            In = ParameterLocation.Header
                         },
                         new List<string>()
                     }
                 });
             });
 
-            //DbConection
+            // Regíster DbConection
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // Regíster Identity
             builder.Services.AddIdentity<UserModel, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            // Config Identity Options
             builder.Services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -71,6 +73,10 @@ namespace flash_card_webbapp.Server
                 options.Password.RequiredUniqueChars = 1;
             });
 
+            // Register JwtSecurityTokenHandler
+            builder.Services.AddSingleton<JwtSecurityTokenHandler>();
+
+            // Config Cors
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin", policy =>
@@ -82,6 +88,7 @@ namespace flash_card_webbapp.Server
                 });
             });
 
+            // Config Authentication
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -104,13 +111,11 @@ namespace flash_card_webbapp.Server
             });
 
 
-            // Services
-            builder.Services.AddScoped<JwtSecurityTokenHandler>();
-            // Created Services
+            // Register Services and Repositories
+            builder.Services.AddScoped<ITokenRepository, TokenRepository>();
             builder.Services.AddScoped<CardRepository>();
             builder.Services.AddScoped<DeckRepository>();
             builder.Services.AddScoped<UserRepository>();
-            builder.Services.AddScoped<ITokenRepository, TokenRepository>();
             builder.Services.AddTransient<UserService>();
             builder.Services.AddScoped<CardService>();
             builder.Services.AddScoped<DeckService>();
@@ -121,7 +126,7 @@ namespace flash_card_webbapp.Server
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            // Configure the HTTP request pipeline.
+            // Config the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -135,8 +140,6 @@ namespace flash_card_webbapp.Server
             app.UseHttpsRedirection();
 
             app.UseCors("AllowSpecificOrigin");
-
-            app.UseMiddleware<TokenHandlerMiddleware>();
 
             app.UseAuthentication();
             app.UseAuthorization();

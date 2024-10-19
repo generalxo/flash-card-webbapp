@@ -12,7 +12,6 @@ export const useFetchCards = (deckId: string) => {
             setError(null);
             try {
                 const response = await ApiClient.get<ICardLst>(`/card/deck/${deckId}`);
-                console.log("api call sent")
                 const cardData: ICard[] = response.data.cards;
                 setCards(cardData);
             } catch (err) {
@@ -21,9 +20,7 @@ export const useFetchCards = (deckId: string) => {
                 setLoading(false);
             }
         };
-
         fetchCards();
-    }, []);
-
+    }, [deckId]);
     return { cards, loading, error };
 };

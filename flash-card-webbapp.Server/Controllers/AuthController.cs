@@ -67,15 +67,23 @@ namespace flash_card_webbapp.Server.Controllers
                 if (string.IsNullOrEmpty(token))
                     return BadRequest("Sorry, it did not work this time");
 
-                Response.Cookies.Append("token", token, new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict, // change to Strict when not in development
-                    Expires = DateTime.Now.AddMinutes(20)
-                });
+                
+                // Change me
+                //Response.Cookies.Append("token", token, new CookieOptions
+                //{
+                //    HttpOnly = false,
+                //    Secure = true,
+                //    SameSite = SameSiteMode.Strict, // change to Strict when not in development
+                //    Expires = DateTime.Now.AddMinutes(20)
+                //});
 
-                return Ok("Welcome!");
+                var response = new
+                {
+                    Token = token,
+                    Info = "Logged in successfully"
+                };
+
+                return Ok(response);
             }
             catch (Exception ex)
             {

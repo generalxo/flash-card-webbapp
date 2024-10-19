@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import H2 from '../../components/text/H2';
 import ModularBtn from '../../components/button/ModularBtn';
 import ApiClient from '../../components/misc/ApiClient';
 import axios from 'axios';
+import { useAuth } from '../../context/useAuthentication';
 
 const LoginFormContainer = styled.div`
     display: flex;
@@ -26,30 +27,48 @@ const Input = styled.input`
 `;
 
 const LoginForm: React.FC = () => {
-    const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
-    const navigate = useNavigate();
+    const [input, setInput] = useState({
+        email: '',
+        password: '',
+    });
+    const { loginUser } = useAuth();
+    //const navigate = useNavigate();
 
-    const login = async (email: string, password: string) => {
-        try {
-            const response = await ApiClient.post('/auth/login', { email, password });
-            if (response.status == 200) {
-                navigate('/')
-            }
-        } catch (error) {
-            // do something with the error later!
-            if (axios.isAxiosError(error)) {
-                console.error('Axios error:', error.response?.data);
-            } else {
-                console.error('Unexpected error:', error);
-            }
-        }
+    // const login = async (email: string, password: string) => {
+    //     try {
+    //         // const response = await ApiClient.post('/auth/login', { email, password });
+    //         // if (response.status == 200) {
+    //         //     //navigate('/')
+
+    //         // }
+            
+    //     } catch (error) {
+    //         // do something with the error later!
+    //         if (axios.isAxiosError(error)) {
+    //             console.error('Axios error:', error.response?.data);
+    //         } else {
+    //             console.error('Unexpected error:', error);
+    //         }
+    //     }
+    // };
+
+    const handleLogin = (email: string, password: string ) => {
+        loginUser(email, password);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        login(email, password);
+        console.log(input);
+        handleLogin(input.email, input.password);
     };
+    
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setInput((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    }
 
     return (
         <>
@@ -57,16 +76,18 @@ const LoginForm: React.FC = () => {
                 <StyledLoginForm onSubmit={handleSubmit}>
                     <H2>Login</H2>
                     <Input
-                        type="text"
+                        type="email"
+                        id='email'
+                        name='email'
                         placeholder="example@email.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={handleInputChange}
                     />
                     <Input
                         type="password"
+                        id='password'
+                        name='password'
                         placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={handleInputChange}
                     />
                     <ModularBtn type="submit" text="Login"/>
                 </StyledLoginForm>

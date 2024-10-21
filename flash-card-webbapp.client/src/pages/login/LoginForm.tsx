@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import H2 from '../../components/text/H2';
 import ModularBtn from '../../components/button/ModularBtn';
-import ApiClient from '../../components/misc/ApiClient';
-import axios from 'axios';
 import { useAuth } from '../../context/useAuthentication';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const LoginFormContainer = styled.div`
     display: flex;
@@ -32,36 +32,24 @@ const LoginForm: React.FC = () => {
         password: '',
     });
     const { loginUser } = useAuth();
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    // const login = async (email: string, password: string) => {
-    //     try {
-    //         // const response = await ApiClient.post('/auth/login', { email, password });
-    //         // if (response.status == 200) {
-    //         //     //navigate('/')
-
-    //         // }
-            
-    //     } catch (error) {
-    //         // do something with the error later!
-    //         if (axios.isAxiosError(error)) {
-    //             console.error('Axios error:', error.response?.data);
-    //         } else {
-    //             console.error('Unexpected error:', error);
-    //         }
-    //     }
-    // };
-
-    const handleLogin = (email: string, password: string ) => {
+    const handleLogin = (email: string, password: string) => {
         loginUser(email, password);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log(input);
-        handleLogin(input.email, input.password);
+        try {
+            e.preventDefault();
+            console.log(input);
+            handleLogin(input.email, input.password);
+            navigate('/');
+        } catch (error) {
+            //handle me better later
+            toast.error(`${error}`);
+        }
     };
-    
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setInput((prev) => ({
@@ -89,7 +77,7 @@ const LoginForm: React.FC = () => {
                         placeholder="Password"
                         onChange={handleInputChange}
                     />
-                    <ModularBtn type="submit" text="Login"/>
+                    <ModularBtn type="submit" text="Login" />
                 </StyledLoginForm>
             </LoginFormContainer>
         </>

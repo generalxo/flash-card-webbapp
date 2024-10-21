@@ -13,7 +13,7 @@ const StyledForm = styled.form`
     width: 100%;
     margin: 0 auto;
     text-align: center;
-    gap: .25rem
+    gap: .25rem;
 `;
 
 const ToggleContainer = styled.div`
@@ -37,7 +37,7 @@ const strictnessInfoText: string = 'Basic will not care about upper or lower cas
 */
 
 const StringCardForm: React.FC = () => {
-    const [toggle , setToggle] = useState<string>('basic');
+    const [toggle, setToggle] = useState<string>('basic');
 
     const [form, setForm] = useState<ICardStrForm>({
         question: '',
@@ -45,7 +45,7 @@ const StringCardForm: React.FC = () => {
         deckId: '',
         strictness: toggle,
     });
-    
+
     const handleToggle = (_: React.MouseEvent<HTMLElement>, newSelect: string) => {
         setToggle(newSelect);
     };
@@ -63,11 +63,11 @@ const StringCardForm: React.FC = () => {
         <>
             <Container>
                 <StyledForm>
-                    <TextFieldLabel labelText='Question' infoText={questionInfoText}/>
-                    <ResizableTextArea placeholder={questionPlaceholder} value={form.question} onChange={handleChange}/>
+                    <TextFieldLabel labelText='Question' infoText={questionInfoText} />
+                    <ResizableTextArea placeholder={questionPlaceholder} value={form.question} onChange={handleChange} />
                     <TextFieldLabel labelText='Answer' />
-                    <ResizableTextArea placeholder='Enter the Answer' value={form.answer} onChange={handleChange}/>
-                    <TextFieldLabel labelText='Strictness Mode' infoText={strictnessInfoText}/>
+                    <ResizableTextArea placeholder='Enter the Answer' value={form.answer} onChange={handleChange} />
+                    <TextFieldLabel labelText='Strictness Mode' infoText={strictnessInfoText} />
                     <ToggleContainer>
                         <ToggleButtonGroup color="primary" value={toggle} exclusive onChange={handleToggle} aria-label="Platform">
                             <ToggleButton value='basic'>Basic</ToggleButton>

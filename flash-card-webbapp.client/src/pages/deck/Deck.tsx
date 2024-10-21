@@ -1,4 +1,5 @@
 import Styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 
 const DeckContainer = Styled.div`
     display: flex;
@@ -17,15 +18,15 @@ const StyledTitle = Styled.h3`
     color: var(--tc-p);
 `;
 
-function Deck(props:IDeck) {
+function Deck(props: IDeck) {
     //console.log('props', props);
+    const navigate = useNavigate();
 
     const HandleClick = () => {
-        console.log('props', props);
-        // Will later take us to the card list page.
-        window.location.href = `/cards/${props.id}`;
+        console.log('IDeck props', props);
+        navigate(`/cards/${props.id}`);
     }
-
+    // Add other props to me and style me!
     return (
         <>
             <DeckContainer onClick={HandleClick}>

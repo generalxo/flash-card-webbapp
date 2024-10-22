@@ -57,7 +57,14 @@ namespace flash_card_webbapp.Server.Controllers
         {
             try
             {
-                if (Request.Cookies.TryGetValue("token", out var token) is false)
+                //if (Request.Cookies.TryGetValue("token", out var token) is false)
+                //    return BadRequest();
+
+                //if (Request.Headers.TryGetValue("token", out var token) is false)
+                //    return BadRequest();
+
+                var test = Request.Headers["Authorization"];
+                if (Request.Headers.TryGetValue("Authorization", out var token) is false)
                     return BadRequest();
 
                 var decks = await _deckService.GetDecks(token);

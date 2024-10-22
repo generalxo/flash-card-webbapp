@@ -67,8 +67,8 @@ namespace flash_card_webbapp.Server.Controllers
                 if (string.IsNullOrEmpty(token))
                     return BadRequest("Sorry, it did not work this time");
 
-                
-                // Change me
+
+                // Change me to be a secure cookie later
                 //Response.Cookies.Append("token", token, new CookieOptions
                 //{
                 //    HttpOnly = false,
@@ -107,7 +107,7 @@ namespace flash_card_webbapp.Server.Controllers
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.Now.AddDays(-1)
                 });
-        
+
                 return Ok("Logged out successfully");
             }
             catch (Exception ex)

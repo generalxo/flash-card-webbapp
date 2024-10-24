@@ -34,3 +34,11 @@ interface ICardStrForm {
     deckId: string;
     strictness: string;
 };
+
+interface CardDto {
+    deckId: string;
+    question: string;
+    answer: string;
+    strictness: number;
+    optionString: string | null;
+}

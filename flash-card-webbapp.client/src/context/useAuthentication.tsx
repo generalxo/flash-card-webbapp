@@ -62,7 +62,7 @@ export const UserProvider = ({ children }: Props) => {
                 if (res) {
                     console.log("hadle login response data");
                     console.log(res);
-                    localStorage.setItem("token", res?.data.token);
+                    localStorage.setItem("token", "bearer " + res?.data.token);
                     const userObj = {
                         username: res?.data.username,
                         email: res?.data.email,

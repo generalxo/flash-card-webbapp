@@ -1,4 +1,4 @@
-﻿using flash_card_webbapp.Server.Models.DbModels;
+using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Models.DTOs.Response;
 using flash_card_webbapp.Server.Services;
@@ -10,7 +10,7 @@ namespace flash_card_webbapp.Server.Controllers
 {
     [Route("api/card")]
     [ApiController]
-    //[Authorize(Roles = "User")]
+    [Authorize(Roles = "User")]
     public class CardController : ControllerBase
     {
         private readonly CardService _cardService;
@@ -33,14 +33,17 @@ namespace flash_card_webbapp.Server.Controllers
                 if(ModelState.IsValid is false)
                     return BadRequest();
 
-                if(Request.Cookies.TryGetValue("token", out var token) is false)
+                if (Request.Headers.TryGetValue("Authorization", out var token) is false)
                     return BadRequest();
 
-                var userId = _userService.GetTokenUserId(token);
                 if(string.IsNullOrEmpty(token))
                     return BadRequest();
 
-                if(!await _cardService.CreateCard(requestDto, userId))
+                var userId = _userService.ParseTokenToUserId(token!);
+                if(string.IsNullOrEmpty(userId))
+                    return BadRequest();
+
+                if (!await _cardService.CreateCard(requestDto, userId))
                     return BadRequest();
 
                 return Ok("Card succesfully created");
@@ -54,18 +57,18 @@ namespace flash_card_webbapp.Server.Controllers
 
 
         [HttpGet("deck/{deckId}")]
-        public async Task<IActionResult> GetCards(string deckId)
+        public async Task<IActionResult> GetCards(string deckId, [FromHeader(Name = "Authorization")] string token)
         {
             try
             {
                 if (string.IsNullOrEmpty(deckId))
                     return BadRequest();
 
-                if(Request.Cookies.TryGetValue("token", out var token) is false)
+                if (string.IsNullOrEmpty(token))
                     return BadRequest();
 
-                var userId = _userService.GetTokenUserId(token);
-                if (string.IsNullOrEmpty(token))
+                var userId = _userService.ParseTokenToUserId(token!);
+                if (string.IsNullOrEmpty(userId))
                     return BadRequest();
 
                 bool isDeckOwner = await _deckService.IsDeckOwner(deckId, userId);
@@ -82,10 +85,6 @@ namespace flash_card_webbapp.Server.Controllers
                     var response = new { Cards = cardDto };
                     return Ok(response);
                 }
-
-                //CardListResponseDto responseDto = new(cards);
-                //if(responseDto is not null)
-                //    return Ok(responseDto);
             }
             catch (Exception ex)
             {
@@ -93,5 +92,11 @@ namespace flash_card_webbapp.Server.Controllers
             }
             return BadRequest();
         }
+
+
+        // ADD UPDATE CARD ENDPOINT
+
+        // ADD DELETE CARD ENDPOINT
+
     }
 }

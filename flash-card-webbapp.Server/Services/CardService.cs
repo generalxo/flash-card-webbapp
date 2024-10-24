@@ -37,17 +37,17 @@ namespace flash_card_webbapp.Server.Services
         {
             try
             {
-                if(string.IsNullOrEmpty(userId))
+                if (!Guid.TryParse(requestModel.DeckId, out Guid deckId))
                     return false;
 
-                if (await _deckService.IsDeckOwner(requestModel.DeckId.ToString(), userId))
+                if (await _deckService.IsDeckOwner(deckId.ToString(), userId))
                 {
-                    var deck = await _deckRepository.GetById(requestModel.DeckId);
+                    var deck = await _deckRepository.GetById(deckId);
                     if (deck is null)
                         return false;
 
                     CardModel newCard = new();
-                    newCard.DeckId = requestModel.DeckId;
+                    newCard.DeckId = deckId;
                     newCard.Question = requestModel.Question;
                     newCard.Answer = requestModel.Answer;
                     if (!string.IsNullOrEmpty(requestModel.OptionString))
@@ -55,14 +55,13 @@ namespace flash_card_webbapp.Server.Services
                         newCard.OptionString = requestModel.OptionString;
                     }
                     newCard.Strictness = requestModel.Strictness;
-                    newCard.DeckId = requestModel.DeckId;
 
                     await _cardRepository.CreateAsync(newCard);
                     deck.CardCount++;
                     _deckRepository.Update(deck);
 
                     int changes = await _cardRepository.SaveAsync();
-                    if(changes < 1)
+                    if (changes < 1)
                         return false;
 
                     return true;

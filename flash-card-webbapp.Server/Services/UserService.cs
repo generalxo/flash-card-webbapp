@@ -1,4 +1,4 @@
-﻿using flash_card_webbapp.Server.Models.DbModels;
+using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Repositories.Interfaces;
 using flash_card_webbapp.Server.Repositories.Repos;
@@ -79,9 +79,9 @@ namespace flash_card_webbapp.Server.Services
             return identityResult.Succeeded;
         }
 
-        public string? GetTokenUserId(string token)
+        public string? ParseTokenToUserId(string token)
         {
-            return _tokenRepository.GetTokenUserId(token);
+            return _tokenRepository.ParseTokenToUserId(token);
         }
 
         public async Task<UserModel?> GetUserById(string userId)

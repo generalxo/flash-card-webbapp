@@ -1,4 +1,4 @@
-﻿using flash_card_webbapp.Server.Models.DbModels;
+using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Repositories.Repos;
 using System.Diagnostics;
@@ -77,7 +77,7 @@ namespace flash_card_webbapp.Server.Services
         {
             try
             {
-                string? userId = _userService.GetTokenUserId(token);
+                string? userId = _userService.ParseTokenToUserId(token);
                 if (string.IsNullOrEmpty(userId))
                     return null;
 

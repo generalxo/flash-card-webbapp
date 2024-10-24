@@ -67,16 +67,6 @@ namespace flash_card_webbapp.Server.Controllers
                 if (string.IsNullOrEmpty(token))
                     return BadRequest("Sorry, it did not work this time");
 
-
-                // Change me to be a secure cookie later
-                //Response.Cookies.Append("token", token, new CookieOptions
-                //{
-                //    HttpOnly = false,
-                //    Secure = true,
-                //    SameSite = SameSiteMode.Strict, // change to Strict when not in development
-                //    Expires = DateTime.Now.AddMinutes(20)
-                //});
-
                 var response = new
                 {
                     Token = token,

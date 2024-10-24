@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace flash_card_webbapp.Server.Repositories.Interfaces
 {
@@ -6,6 +6,6 @@ namespace flash_card_webbapp.Server.Repositories.Interfaces
     {
         string CreateJWTToken(IdentityUser user, List<string> roles);
 
-        public string? GetTokenUserId(string token);
+        public string? ParseTokenToUserId(string token);
     }
 }

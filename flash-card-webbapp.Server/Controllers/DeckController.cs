@@ -1,4 +1,4 @@
-﻿using flash_card_webbapp.Server.Models.DbModels;
+using flash_card_webbapp.Server.Models.DbModels;
 using flash_card_webbapp.Server.Models.DTOs.Request;
 using flash_card_webbapp.Server.Models.DTOs.Response;
 using flash_card_webbapp.Server.Services;
@@ -24,17 +24,14 @@ namespace flash_card_webbapp.Server.Controllers
 
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateDeck(CreateDeckRequestDto requestDto)
+        public async Task<IActionResult> CreateDeck(CreateDeckRequestDto requestDto, [FromHeader(Name = "Authorization")] string token)
         {
             try
             {
-                if(ModelState.IsValid is false)
+                if (string.IsNullOrEmpty(token))
                     return BadRequest();
 
-                if (Request.Cookies.TryGetValue("token", out var token) is false)
-                    return BadRequest();
-                
-                var userId = _userService.GetTokenUserId(token);
+                var userId = _userService.ParseTokenToUserId(token);
                 if(string.IsNullOrEmpty(userId))
                     return BadRequest();
 
@@ -53,21 +50,14 @@ namespace flash_card_webbapp.Server.Controllers
 
 
         [HttpGet("all")]
-        public async Task<IActionResult> GetAllDecks()
+        public async Task<IActionResult> GetAllDecks([FromHeader(Name = "Authorization")] string token)
         {
             try
             {
-                //if (Request.Cookies.TryGetValue("token", out var token) is false)
-                //    return BadRequest();
-
-                //if (Request.Headers.TryGetValue("token", out var token) is false)
-                //    return BadRequest();
-
-                var test = Request.Headers["Authorization"];
-                if (Request.Headers.TryGetValue("Authorization", out var token) is false)
+                if(string.IsNullOrEmpty(token))
                     return BadRequest();
 
-                var decks = await _deckService.GetDecks(token);
+                var decks = await _deckService.GetDecks(token!);
                 if (decks is null)
                     return NotFound();
 

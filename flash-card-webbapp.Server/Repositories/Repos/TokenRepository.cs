@@ -1,4 +1,4 @@
-﻿using flash_card_webbapp.Server.Repositories.Interfaces;
+using flash_card_webbapp.Server.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
@@ -54,8 +54,9 @@ namespace flash_card_webbapp.Server.Repositories.Repos
                     _configuration[JwtIssuer],
                     _configuration[JwtAudience],
                     claims,
-                    expires: DateTime.Now.AddMinutes(20),
-                    signingCredentials: credentials);
+                    expires: DateTime.Now.AddMinutes(60),
+                    signingCredentials: credentials
+                );
 
                 return _jwtSecurityTokenHandler.WriteToken(token);
             }
@@ -68,10 +69,14 @@ namespace flash_card_webbapp.Server.Repositories.Repos
         }
 
 
-        public string? GetTokenUserId(string token)
+        public string? ParseTokenToUserId(string input)
         {
             try
             {
+                if (!input.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                    return null;
+                string token = input["Bearer ".Length..].Trim();
+
                 var decodedToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
                 if(decodedToken == null)
                     return null;

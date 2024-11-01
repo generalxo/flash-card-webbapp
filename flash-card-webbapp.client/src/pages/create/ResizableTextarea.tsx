@@ -3,14 +3,19 @@ import {useRef, useEffect, forwardRef, useImperativeHandle, memo, useCallback} f
 
 const TextArea = styled.textarea`
     width: 35rem;
-    padding: .25rem;
-    text-align: center;
+	border: 0;
+    padding: .5rem;
+	padding-top: .75rem;
+	padding-bottom: .75rem;
+    text-align: start;
     border-radius: var(--r-s);
     resize: none;
     outline: none;
     background: #f9f9f9;
-    font-size: 1rem;
+    font-size: 1.12rem;
 	min-height: 1.5rem;
+	line-height: 1rem;
+	
 `;
 
 interface IResizableTextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement>{};

@@ -3,28 +3,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace flash_card_webbapp.Server.Models.DTOs.Response
 {
-    public class CardResponseDto
+    public class CardResponseDto(CardModel cardModel)
     {
         [Required]
-        public string? Title { get; set; }
+        public string? Question { get; set; } = cardModel.Question;
         [Required]
-        public string? Question { get; set; }
+        public string? Answer { get; set; } = cardModel.Answer;
         [Required]
-        public string? Answer { get; set; }
+        public string? OptionString { get; set; } = cardModel.OptionString;
         [Required]
-        public string? OptionString { get; set; }
+        public int Streak { get; set; } = cardModel.Streak;
         [Required]
-        public int Streak { get; set; }
-        [Required]
-        public int BlankPos { get; set; }
-
-        public CardResponseDto(CardModel cardModel)
-        {
-            Question = cardModel.Question;
-            Answer = cardModel.Answer;
-            OptionString = cardModel.OptionString;
-            Streak = cardModel.Streak;
-            BlankPos = cardModel.BlankPos;
-        }
+        public int BlankPos { get; set; } = cardModel.BlankPos;
     }
 }

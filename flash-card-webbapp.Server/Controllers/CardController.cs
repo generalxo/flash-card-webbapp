@@ -26,20 +26,17 @@ namespace flash_card_webbapp.Server.Controllers
 
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateCard(CreateCardRequestDto requestDto)
+        public async Task<IActionResult> CreateCard(CreateCardRequestDto requestDto, [FromHeader(Name = "Authorization")] string token)
         {
             try
             {
                 if(ModelState.IsValid is false)
                     return BadRequest();
 
-                if (Request.Headers.TryGetValue("Authorization", out var token) is false)
-                    return BadRequest();
-
                 if(string.IsNullOrEmpty(token))
                     return BadRequest();
 
-                var userId = _userService.ParseTokenToUserId(token!);
+                var userId = _userService.ParseTokenToUserId(token);
                 if(string.IsNullOrEmpty(userId))
                     return BadRequest();
 
@@ -67,7 +64,7 @@ namespace flash_card_webbapp.Server.Controllers
                 if (string.IsNullOrEmpty(token))
                     return BadRequest();
 
-                var userId = _userService.ParseTokenToUserId(token!);
+                var userId = _userService.ParseTokenToUserId(token);
                 if (string.IsNullOrEmpty(userId))
                     return BadRequest();
 

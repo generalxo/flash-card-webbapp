@@ -7,6 +7,7 @@ import BaseDiv from '../../components/misc/BaseDiv';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ApiClient from '../../components/misc/ApiClient';
 import { useParams } from 'react-router-dom';
+import { handleTextAreaChange } from '../../components/handle/HandleTextAreaChange';
 
 /* To Do
     - Add validation to the form
@@ -87,13 +88,9 @@ const OptionCardCreator = () => {
         option: ''
     });
 
+    // handleTextAreaChange
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        e.preventDefault();
-        const { name, value } = e.target;
-        setForm({
-            ...form,
-            [name]: value,
-        });
+        handleTextAreaChange(e, form, setForm);
     };
 
     const handleAddOptionClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -119,9 +116,8 @@ const OptionCardCreator = () => {
         });
     };
 
-        const handleSubmitForm = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleSubmitForm = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        
         const data: ICardForm = {
             question: form.question,
             answer: form.answer,
@@ -152,11 +148,11 @@ const OptionCardCreator = () => {
             <Container>
                 <StyledForm>
                     <TextFieldLabel labelText='Question' infoText={questionInfoText}/>
-                    <ResizableTextArea name='question' value={form.question} onChange={handleChange} placeholder={questionPlaceholder}/>
+                    <ResizableTextArea name='question' onChange={handleChange} placeholder={questionPlaceholder}/>
                     <TextFieldLabel labelText='Answer' />
-                    <ResizableTextArea name='answer' value={form.answer} onChange={handleChange} placeholder='Enter the Answer'/>
+                    <ResizableTextArea name='answer' onChange={handleChange} placeholder='Enter the Answer'/>
                     <TextFieldLabel labelText='Options' infoText={optionInfoText}/>
-                    <ResizableTextArea name='option' value={form.option} onChange={handleChange} placeholder='Add a option' ref={optionRef} />
+                    <ResizableTextArea name='option' onChange={handleChange} placeholder='Add a option' ref={optionRef} />
                     <OptionBtnWrapper>
                         <Button onClick={handleAddOptionClick} variant='contained'>Add Option</Button>
                     </OptionBtnWrapper>

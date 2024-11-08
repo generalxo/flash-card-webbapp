@@ -1,12 +1,13 @@
 import Styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
+import { CreditCard } from '@mui/icons-material';
 
 const DeckContainer = Styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     min-width: 16rem;
-    min-height: 9rem;
+    min-height: 6rem;
     padding: .75rem;
     background-color: var(--mc-s);
     border-radius: var(--r-s);
@@ -18,8 +19,18 @@ const StyledTitle = Styled.h3`
     color: var(--tc-p);
 `;
 
+const StyledStats = Styled.div`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    gap: .125rem;
+    margin-top: auto;
+`;
+
 function Deck(props: IDeck) {
-    //console.log('props', props);
+    console.log('props', props);
     const navigate = useNavigate();
 
     const HandleClick = () => {
@@ -31,6 +42,9 @@ function Deck(props: IDeck) {
         <>
             <DeckContainer onClick={HandleClick}>
                 <StyledTitle>{props.title}</StyledTitle>
+                <StyledStats>
+                    {props.cardCount}<CreditCard />
+                </StyledStats>
             </DeckContainer>
         </>
     );

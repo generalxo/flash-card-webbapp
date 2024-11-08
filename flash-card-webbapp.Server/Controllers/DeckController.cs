@@ -74,22 +74,24 @@ namespace flash_card_webbapp.Server.Controllers
         }
 
 
-        private DeckResponseDto DeckToDto(DeckModel deck)
+        private static DeckResponseDto DeckToDto(DeckModel deck)
         {
-            DeckResponseDto dto = new();
-            dto.Id = deck.Id.ToString();
-            dto.Title = deck.Title;
-            dto.CardCount = deck.CardCount;
-
+            DeckResponseDto dto = new()
+            {
+                Id = deck.Id.ToString(),
+                Title = deck.Title,
+                CardCount = deck.CardCount
+            };
             return dto;
         }
 
 
-        private DecksResponseDto DecksToDto(List<DeckModel> decks)
+        private static DecksResponseDto DecksToDto(List<DeckModel> decks)
         {
-            DecksResponseDto dto = new();
-            dto.Decks = decks.Select(x => DeckToDto(x)).ToArray();
-
+            DecksResponseDto dto = new()
+            {
+                Decks = decks.Select(x => DeckToDto(x)).ToArray()
+            };
             return dto;
         }
 

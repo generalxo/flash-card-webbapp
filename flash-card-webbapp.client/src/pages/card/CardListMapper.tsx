@@ -8,17 +8,34 @@ const CardContainer = styled.div`
     margin-top: 1rem;
 `;
 
+const StyledCard = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-color: var(--mc-s);
+    width: 16rem;
+    min-height: 6rem;
+    padding: .5rem;
+    border-radius: var(--r-s);
+`;
+
+const QuestionText = styled.p`
+    font-size: 1.25rem;
+    text-align: center;
+    margin: 0 .25rem;
+`;
+
+const Description = styled.p`
+    font-style: italic;
+    font-size: .85rem;
+    text-align: start;
+    text-decoration: underline;
+`;
+
 interface IMapper {
     question: string;
     answer: string;
     optionArr: string[];
 }
-
-const QuestionText = styled.p`
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: center;
-`;
 
 const CardLstToMapper = (cardlst: ICardLst): IMapper[] => {
     return cardlst.cards.map(card => ({
@@ -27,6 +44,8 @@ const CardLstToMapper = (cardlst: ICardLst): IMapper[] => {
         optionArr: card.optionString ? card.optionString.split(',') : []
     }));
 }
+
+// Add a max width for if the text is too long
 
 const CardListMapper: React.FC<ICardLst> = (props) => {
     console.log("props");
@@ -41,13 +60,16 @@ const CardListMapper: React.FC<ICardLst> = (props) => {
             <>
                 {cardList.map((card, index) => {
                     return (
-                        <div key={index}>
+                        <StyledCard key={index}>
+                            <Description>Question</Description>
                             <QuestionText>{card.question}</QuestionText>
-                            <p>{card.answer}</p>
+                            <Description>Answer</Description>
+                            <QuestionText>{card.answer}</QuestionText>
+                            {card.optionArr.length > 0 && <Description>Options</Description>}
                             {card.optionArr.map((option, index) => {
-                                return <p key={index}>{option}</p>
+                                return <QuestionText key={index}>{option}</QuestionText>
                             })}
-                        </div>
+                        </StyledCard>
                     )
                 })}
             </>

@@ -79,7 +79,7 @@ namespace flash_card_webbapp.Server
             // Config Cors
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowSpecificOrigin", policy =>
+                options.AddPolicy("CorsPolicy", policy =>
                 {
                     policy.WithOrigins("https://localhost:5173")
                           .AllowAnyHeader()
@@ -139,7 +139,7 @@ namespace flash_card_webbapp.Server
 
             app.UseHttpsRedirection();
 
-            app.UseCors("AllowSpecificOrigin");
+            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();

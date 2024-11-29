@@ -60,7 +60,7 @@ export const UserProvider = ({ children }: Props) => {
         await LoginApiRequest(username, password)
             .then((res) => {
                 if (res) {
-                    console.log("hadle login response data");
+                    console.log("API Response Data");
                     console.log(res);
                     localStorage.setItem("token", "bearer " + res?.data.token);
                     const userObj = {

@@ -139,7 +139,7 @@ const OptionCardCreator = () => {
 
     const optionRef = useRef<HTMLTextAreaElement>(null);
 
-    const questionPlaceholder: string = 'Enter ur Question \nEnter ___ to set ur Blank\nFor more info click the i above';
+    const questionPlaceholder: string = 'Enter ur Question \nEnter ___ to set ur Blank\nFor more info hover over the i above';
     const questionInfoText: string = 'Enter the question for the card. If you want to have a blank in the question enter 3 undersocres like this ___ where you want the blank to be. By default the blank will be at end.';
     const optionInfoText: string = 'Multiple choices can be added to the card. The answer will automatically be added to the options. At least 1 option needs to be added but 3 are recomended so there are 4 options to chose from.';
 

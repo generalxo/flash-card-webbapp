@@ -73,6 +73,8 @@ namespace flash_card_webbapp.Server.Controllers
             return BadRequest();
         }
 
+        // Add update deck - update deck title is the only thing that can be updated currently.
+        // Add delete deck - this needs to not only delete a deck but also all cards associated with it.
 
         private static DeckResponseDto DeckToDto(DeckModel deck)
         {

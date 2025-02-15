@@ -45,12 +45,12 @@ export default defineConfig({
         }
     },
     server: {
-        proxy: {
-            '^/api': {
-                target: 'https://localhost:7163/',
-                secure: false
-            }
-        },
+        //proxy: {
+        //    '^/api': {
+        //        target: 'https://localhost:7163/',
+        //        secure: false
+        //    }
+        //},
         port: 5173,
         https: {
             key: fs.readFileSync(keyFilePath),

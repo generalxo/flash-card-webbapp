@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useFetchCards } from '../../components/hooks/useFetchCards';
+import { useFetchCards } from '../../hooks/useFetchCards';
 import React from 'react';
 import { CircularProgress } from '@mui/material';
 import CardListMapper from './CardListMapper';

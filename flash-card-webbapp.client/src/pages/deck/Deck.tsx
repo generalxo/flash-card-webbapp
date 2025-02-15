@@ -37,6 +37,7 @@ function Deck(props: IDeck) {
         console.log('IDeck props', props);
         navigate(`/cards/${props.id}`);
     }
+
     // Add other props to me and style me!
     return (
         <>

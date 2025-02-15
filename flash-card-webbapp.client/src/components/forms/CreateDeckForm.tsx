@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import axios from 'axios';
-import ApiClient from '../misc/ApiClient';
+//import ApiClient from '../misc/ApiClient';
+import useCreateDeckApi from '../../hooks/useCreateDeckApi';
 
 const FormContainer = styled.div`
     display: flex;
@@ -52,30 +53,26 @@ const Button = styled.button`
 `;
 
 const CreateDeckForm = () => {
-
+    const { createDeck } = useCreateDeckApi();
     const [deckTitle, setDeckTitle] = useState("");
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         setDeckTitle(event.target.value);
     };
 
-    const request = async () => {
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        console.log("Title:", deckTitle);
+
         try {
-            const response = await ApiClient.post('/deck/create', { title: deckTitle }, { withCredentials: true });
-            console.log('Response:', response.data);
+            const response = await createDeck(deckTitle);
+            console.log("API Response:", response.data);
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                console.error('Axios error:', error.response?.data);
-            } else {
-                console.error('Unexpected error:', error);
+            console.error("Error creating deck:", error);
+            if (axios.isCancel(error)) {
+                console.log("Request cancelled");
             }
         }
-    }
-
-    const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
-        console.log("Title: ", deckTitle)
-        request();
     };
 
     return (

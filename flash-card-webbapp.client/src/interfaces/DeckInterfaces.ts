@@ -7,3 +7,7 @@ interface IDeck {
 interface IDeckLst {
     decks: IDeck[];
 }
+
+interface IDeckCreate {
+    title: string;
+}

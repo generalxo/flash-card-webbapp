@@ -28,18 +28,30 @@ namespace flash_card_webbapp.Server.Controllers
         {
             try
             {
+                var response = new ResponseDto<DecksResponseDto>
+                {
+                    Data = null,
+                    Message = "Auth Error",
+                    Success = false
+                };
+
                 if (string.IsNullOrEmpty(token))
-                    return BadRequest();
+                    return BadRequest(response);
 
                 var userId = _userService.ParseTokenToUserId(token);
                 if(string.IsNullOrEmpty(userId))
-                    return BadRequest();
+                    return BadRequest(response);
 
                 var result = await _deckService.CreateDeck(requestDto, userId);
                 if (result is false)
-                    return BadRequest();
-
-                return Ok();
+                {
+                    response.Message = "Failed to create deck";
+                    return Ok(response);
+                }
+                    
+                response.Message = "Deck created";
+                response.Success = true;
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -54,17 +66,32 @@ namespace flash_card_webbapp.Server.Controllers
         {
             try
             {
+                var response = new ResponseDto<DecksResponseDto>
+                {
+                    Data = null,
+                    Message = "Auth Error",
+                    Success = false
+                };
+
                 if(string.IsNullOrEmpty(token))
-                    return BadRequest();
+                    return BadRequest(response);
 
                 var decks = await _deckService.GetDecks(token!);
                 if (decks is null)
-                    return NotFound();
-
-                var response = DecksToDto(decks);
-
-                if (response != null && response.Decks.Length != 0)
+                {
+                    response.Message = "No decks found";
+                    response.Success = true;
                     return Ok(response);
+                }
+
+                var data = DecksToDto(decks);
+                if (data != null && data.Decks.Length != 0)
+                {
+                    response.Success = true;
+                    response.Message = "Decks found";
+                    response.Data = data;
+                    return Ok(response);
+                }
             }
             catch (Exception ex)
             {
@@ -86,7 +113,6 @@ namespace flash_card_webbapp.Server.Controllers
             };
             return dto;
         }
-
 
         private static DecksResponseDto DecksToDto(List<DeckModel> decks)
         {

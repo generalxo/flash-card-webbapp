@@ -2,8 +2,8 @@
 
 :root {
   /* Main Colors */
-  --mc-p: #5b33a5;
-  --mc-s: #47225f;
+  --mc-p: #4b2c83;
+  --mc-s: #3d1a53;
   --mc-t: #c74938;
   
   /* Background Colors */
@@ -18,7 +18,7 @@
   /* Special Colors */
   --sc-d: #ff6347;
   --sc-s: #00b300;
-  --sc-l: #1e90ff;
+  --sc-link: #1e90ff;
 
   /* Font Sizes */
   --fs-xs: 14px;

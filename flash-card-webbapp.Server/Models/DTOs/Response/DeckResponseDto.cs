@@ -2,8 +2,8 @@
 {
     public class DeckResponseDto
     {
-        public string Id { get; set; }
-        public string Title { get; set; }
+        public string? Id { get; set; }
+        public string? Title { get; set; }
         public int CardCount { get; set; }
     }
 
@@ -11,6 +11,5 @@
     {
         public DeckResponseDto[] Decks { get; set; }
     }
-
 
 }

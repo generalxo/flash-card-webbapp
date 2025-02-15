@@ -8,9 +8,9 @@ const Routing = () => {
             <Routes>
                 {AppRoutes.map((route, index) => {
                     if (route.index) {
-                    return <Route key={index} path="/" element={route.Element} />;
+                    return <Route key={index} path="/" element={route.element} />;
                     } else {
-                    return <Route key={index} path={route.path} element={route.Element} />;
+                    return <Route key={index} path={route.path} element={route.element} />;
                     }
                 })}
             </Routes>

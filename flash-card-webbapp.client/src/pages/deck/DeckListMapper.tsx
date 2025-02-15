@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import Deck from './Deck';
-import { useFetchDecks } from '../../components/hooks/useFetchDecks';
+import useGetAllDecksApi from '../../hooks/useGetAllDecks';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const DeckContainer = styled.div`
     display: flex;
@@ -11,31 +13,45 @@ const DeckContainer = styled.div`
 `;
 
 const DeckListMapper: React.FC = () => {
-    const { decks, loading, error } = useFetchDecks();
+    const { getDecks, loading } = useGetAllDecksApi();
+    const [decks, setDecks] = useState<IDeck[]>([]);
 
-    // Create better loading, error and 0 Cards handeling
+    useEffect(() => {
+        const controller = new AbortController();
+        const fetchData = async () => {
+            try {
+                const response = await getDecks(controller.signal);
+                setDecks(response.deckArray);
+            } catch (error) {
+                if(axios.isCancel(error)) {
+                    console.log("Request cancelled");
+                    return;
+                }
+            }
+        };
+        fetchData();
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
+    // Create a component to display while loading
     if (loading) {
-        return <div>Loading...</div>
+        return <p>Loading...</p>;
     }
 
-    if (error) {
-        return <div>{error}</div>
-    }
-
-    if (decks.length == 0) {
-        return <div>Create your first deck !</div>
+    // Create a component to display when there are no decks available
+    if (decks.length === 0) {
+        return <p>No decks available.</p>;
     }
 
     return (
-        <>
-            <DeckContainer>
-                {decks.map((deck, index) => (
-                    <Deck key={index} id={deck.id} title={deck.title} cardCount={deck.cardCount} />
-                ))}
-            </DeckContainer>
-        </>
+        <DeckContainer>
+            {decks.map((deck: IDeck) => (
+                <Deck key={deck.id} title={deck.title} cardCount={deck.cardCount} id={deck.id} />
+            ))}
+        </DeckContainer>
     );
-}
+};
 
 export default DeckListMapper;

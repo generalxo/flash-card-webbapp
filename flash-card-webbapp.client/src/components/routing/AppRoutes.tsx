@@ -1,5 +1,3 @@
-// AppRoutes will handle all the App routes for the webb app
-// Created Imports
 import HomePage from '../../pages/HomePage';
 import CardPage from '../../pages/card/CardPage';
 import CreatePage from '../../pages/create/CreatePage';
@@ -12,31 +10,31 @@ const AppRoutes = [
     {
         index: true,
         path: '/',
-        Element: <HomePage />,
+        element: <HomePage />,
     },
     {
         path: '/decks',
-        Element:  <DecksPage />,
+        element:  <DecksPage />,
     },
     {
         path: '/login',
-        Element:  <LoginPage />,
+        element:  <LoginPage />,
     },
     {
         path: '/cards/:id',
-        Element: <CardPage />,
+        element: <CardPage />,
     },
     {
         path: '/create/:id',
-        Element: <CreatePage />,
+        element: <CreatePage />,
     },
     {
         path: '/create/text/:id',
-        Element: <StringCardForm />,
+        element: <StringCardForm />,
     },
     {
         path: '/create/option/:id',
-        Element: <OptionCardForm />,
+        element: <OptionCardForm />,
     }
 ];
 

@@ -60,8 +60,8 @@ export const UserProvider = ({ children }: Props) => {
         await LoginApiRequest(username, password)
             .then((res) => {
                 if (res) {
-                    console.log("API Response Data");
-                    console.log(res);
+                    //console.log("API Response Data");
+                    //console.log(res);
                     localStorage.setItem("token", "bearer " + res?.data.token);
                     const userObj = {
                         username: res?.data.username,
@@ -70,7 +70,7 @@ export const UserProvider = ({ children }: Props) => {
                     localStorage.setItem("user", JSON.stringify(userObj));
                     setToken(res?.data.token!);
                     setUser(userObj!);
-                    toast.success("Login Success!");
+                    toast.success(`Welcome back ${userObj.username}`);
                     //navigate("/");
                 }
             })

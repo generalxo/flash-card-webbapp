@@ -81,7 +81,7 @@ namespace flash_card_webbapp.Server
             {
                 options.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.WithOrigins("https://localhost:5173")
+                    policy.WithOrigins("https://localhost:5173", "https://localhost:4173")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials();
@@ -119,7 +119,7 @@ namespace flash_card_webbapp.Server
             builder.Services.AddTransient<UserService>();
             builder.Services.AddScoped<CardService>();
             builder.Services.AddScoped<DeckService>();
-            
+
 
             var app = builder.Build();
 
@@ -133,7 +133,8 @@ namespace flash_card_webbapp.Server
                 app.UseSwaggerUI();
             }
 
-            app.UseCookiePolicy(new CookiePolicyOptions{
+            app.UseCookiePolicy(new CookiePolicyOptions
+            {
                 MinimumSameSitePolicy = SameSiteMode.None,
             });
 
